@@ -25,5 +25,4 @@ public class GitController {
 	public void postCommitDetails(@RequestBody Object obj) {
 		logger.info("Printing PostCommitDetails" + obj);
 	}
-
 }
