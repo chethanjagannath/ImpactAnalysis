@@ -10,9 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value="/ImpactAnalysis")
 public class GitController {
 	
-	@GetMapping(value="/Test", produces =  "application/json", consumes =  "application/json")
+	//@GetMapping(value="/Test", produces =  "application/json", consumes =  "application/json")
+	@GetMapping("/Test")
 	public String testApp() {
-		return "Success - ImpactanAnalysis Application is Up & Running";
+		return "Success - ImpactAnalysis Application is Up & Running";
 	}
 
 }
