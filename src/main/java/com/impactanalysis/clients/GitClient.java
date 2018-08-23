@@ -2,31 +2,19 @@ package com.impactanalysis.clients;
 
 import java.io.Serializable;
 import java.util.Collections;
-<<<<<<< Updated upstream
-=======
 import java.util.HashMap;
 import java.util.Map;
->>>>>>> Stashed changes
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-<<<<<<< Updated upstream
-import org.springframework.stereotype.Component;
-=======
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
->>>>>>> Stashed changes
 import org.springframework.web.client.RestTemplate;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -37,7 +25,6 @@ import com.impactanalysis.utilities.MediaTypeSupport;
 @Component
 @JsonIgnoreProperties(ignoreUnknown=true)
 @JsonInclude(Include.NON_NULL)
-@Component
 public class GitClient implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -101,16 +88,8 @@ public class GitClient implements Serializable{
 			System.out.println(e.getResponseBodyAsString());
 		}
 		//HttpEntity<String> entity = new HttpEntity<>("parameters", httpHeaders);
-
-<<<<<<< Updated upstream
-		HttpEntity<String> entity = new HttpEntity<>("parameters", httpHeaders);
-
-		Object obj = restTemplate.exchange(gitURI, HttpMethod.GET, entity, Object.class);
-		logger.info("Response Object:" + obj);
-=======
 		//Object obj = restTemplate.exchange(gitURI + "/search/commits", HttpMethod.GET, entity, Object.class);
 		logger.info("Response Object:" + responseEntity);
->>>>>>> Stashed changes
 		
 		return responseEntity;
 	}
