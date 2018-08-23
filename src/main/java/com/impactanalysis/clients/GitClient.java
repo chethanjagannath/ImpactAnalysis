@@ -23,19 +23,19 @@ import com.impactanalysis.dto.GitResponseDTO;
 import com.impactanalysis.utilities.MediaTypeSupport;
 
 @Component
-@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(Include.NON_NULL)
-public class GitClient implements Serializable{
+public class GitClient implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	RestTemplate restTemplate = new RestTemplate();
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(GitClient.class);
 
 	@Value("${git.repo.url}")
 	private String gitURI;
-	
+
 	@Autowired
 	MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter;
 
@@ -57,40 +57,44 @@ public class GitClient implements Serializable{
 //		} catch (Exception e) {
 //			e.printStackTrace();
 //		}
-		
+
 		Map<String, Object> params = new HashMap<>();
-	    
+
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setAccept(Collections.singletonList(MediaTypeSupport.GITHUB_MEDIATYPE));
-        
-		params.put("repo:", gitRequestDTO.getOwnerId()+"/"+gitRequestDTO.getProjectRepo());
-	    params.put("+committer-date:", gitRequestDTO.getCommitDate());
-	    
+
+		params.put("repo:", gitRequestDTO.getOwnerId() + "/" + gitRequestDTO.getProjectRepo());
+		params.put("+committer-date:", gitRequestDTO.getCommitDate());
+
 		HttpEntity<GitRequestDTO> request = new HttpEntity<GitRequestDTO>(null, httpHeaders);
 		params.put("httpHeaders", request);
-		
+
 		restTemplate.getMessageConverters().add(mappingJackson2HttpMessageConverter);
-		   /* restTemplate.setRequestFactory(
-		        new HttpComponentsClientHttpRequestFactory());*/
-		    
+		/*
+		 * restTemplate.setRequestFactory( new
+		 * HttpComponentsClientHttpRequestFactory());
+		 */
+
 		GitResponseDTO responseEntity = null;
-		String URI =  gitURI + "/search/commits?q=repo:"+gitRequestDTO.getOwnerId()+"/"+gitRequestDTO.getProjectRepo()+"+committer-date:"+gitRequestDTO.getCommitDate();
-		logger.info("RequestDetails:"+gitRequestDTO+" URI :  "+URI);
+		String URI = gitURI + "/search/commits?q=repo:" + gitRequestDTO.getOwnerId() + "/"
+				+ gitRequestDTO.getProjectRepo() + "+committer-date:" + gitRequestDTO.getCommitDate();
+		logger.info("RequestDetails:" + gitRequestDTO + " URI :  " + URI);
 		try {
 			responseEntity = restTemplate.getForObject(URI, GitResponseDTO.class, request);
 		} catch (HttpClientErrorException e) {
-			//success = false;
-			//Log.e(TAG, command+" was rejected for URL: "+url, e);
+			// success = false;
+			// Log.e(TAG, command+" was rejected for URL: "+url, e);
 			System.out.println(e.getStatusCode().value());
 			System.out.println(e.getResponseBodyAsString());
 		} catch (HttpServerErrorException e) {
 			System.out.println(e.getStatusCode().value());
 			System.out.println(e.getResponseBodyAsString());
 		}
-		//HttpEntity<String> entity = new HttpEntity<>("parameters", httpHeaders);
-		//Object obj = restTemplate.exchange(gitURI + "/search/commits", HttpMethod.GET, entity, Object.class);
+		// HttpEntity<String> entity = new HttpEntity<>("parameters", httpHeaders);
+		// Object obj = restTemplate.exchange(gitURI + "/search/commits",
+		// HttpMethod.GET, entity, Object.class);
 		logger.info("Response Object:" + responseEntity);
-		
+
 		return responseEntity;
 	}
 
