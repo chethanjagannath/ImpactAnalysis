@@ -41,11 +41,11 @@ public class GitController {
 		logger.info("Printing PostCommitDetails" + gitUserDTO);
 
 	}
-	@PostMapping(value = "/getCommitDetailsByDate", produces = "application/json", consumes="application/vnd.github.cloak-preview")
+	@PostMapping(value = "/getCommitDetailsByDate" , consumes="application/vnd.github.VERSION.sha",produces="application/vnd.github.VERSION.sha")
 	public void getCommitDetailsByDate(@RequestBody GitUserDTO gitUserDTO) {
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
 		//headers.add("Authorization", "Basic " + base64Creds);
-		headers.add("Content-Type", "application/vnd.github.cloak-preview");
+		headers.add("Content-type", "application/vnd.github.VERSION.sha");
 		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
 		HttpEntity<GitUserDTO> request = new HttpEntity<GitUserDTO>(gitUserDTO, headers);
@@ -53,7 +53,7 @@ public class GitController {
 		
 		logger.info("Printing getCommitDetailsByDate" + gitUserDTO);
 		try {
-			restTemplate.postForObject(gitURI + "search/commits", request, IAResponse.class);
+			restTemplate.getForObject(gitURI + "search/commits", IAResponse.class, request);
 			//restTemplate.getForObject(gitURI + "search/commits", IAResponse.class);
 		} catch (Exception e) {
 			e.printStackTrace();
