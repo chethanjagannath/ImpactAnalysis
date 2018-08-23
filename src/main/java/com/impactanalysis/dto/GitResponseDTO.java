@@ -1,7 +1,9 @@
-package com.impactanalysis.response;
+package com.impactanalysis.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -9,10 +11,16 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.impactanalysis.pojo.File;
 import com.impactanalysis.pojo.Item;
 import com.impactanalysis.pojo.Stat;
+import com.impactanalysis.utilities.CommonUtility;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(Include.NON_NULL)
-public class IAResponse implements Serializable{
+public class GitResponseDTO implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+
+	@Autowired
+	private CommonUtility comonUtility;
 	
 	private int total_count;
 	private String sha;
@@ -25,7 +33,7 @@ public class IAResponse implements Serializable{
 	private ArrayList<Item> items;
 	private ArrayList<Stat> stats;
     
-	public IAResponse() {
+	public GitResponseDTO() {
 		
 	}
 	
@@ -115,5 +123,10 @@ public class IAResponse implements Serializable{
 
 	public void setStats(ArrayList<Stat> stats) {
 		this.stats = stats;
+	}
+	
+	@Override
+	public String toString() {
+		return comonUtility.toString();
 	}
 }

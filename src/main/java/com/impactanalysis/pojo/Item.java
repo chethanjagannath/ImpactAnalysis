@@ -1,6 +1,7 @@
 package com.impactanalysis.pojo;
 
 public class Item {
+	
 	private String url;
 	private String SHA;
 

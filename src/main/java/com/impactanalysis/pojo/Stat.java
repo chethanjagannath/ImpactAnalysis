@@ -1,6 +1,7 @@
 package com.impactanalysis.pojo;
 
 public class Stat {
+	
 	private int total;
 	private int additions;
 	private int deletions;
@@ -28,5 +29,4 @@ public class Stat {
 	public void setDeletions(int deletions) {
 		this.deletions = deletions;
 	}
-
 }

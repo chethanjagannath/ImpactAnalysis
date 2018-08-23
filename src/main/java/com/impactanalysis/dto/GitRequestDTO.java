@@ -3,20 +3,29 @@ package com.impactanalysis.dto;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.impactanalysis.utilities.CommonUtility;
+
 @JsonIgnoreProperties(ignoreUnknown=true)
 @JsonInclude(Include.NON_NULL)
-public class GitUserDTO implements Serializable{
+public class GitRequestDTO implements Serializable{
+	
+	@Autowired
+	private CommonUtility comonUtility;
+
+	private static final long serialVersionUID = 1L;
+	
 	private String ownerId;
 	private String projectRepo;
-	private LocalDate commitDate;
 	private String startCommitID;
 	private String endCommitID;
+	private LocalDate commitDate;
     
-	public GitUserDTO() {
-		
+	public GitRequestDTO() {
 	}
 	
 	public String getOwnerId() {
@@ -79,7 +88,7 @@ public class GitUserDTO implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		GitUserDTO other = (GitUserDTO) obj;
+		GitRequestDTO other = (GitRequestDTO) obj;
 		if (commitDate == null) {
 			if (other.commitDate != null)
 				return false;
@@ -108,10 +117,15 @@ public class GitUserDTO implements Serializable{
 		return true;
 	}
 
+//	@Override
+//	public String toString() {
+//		return "GitUserDTO [ownerId=" + ownerId + ", projectRepo=" + projectRepo + ", commitDate=" + commitDate
+//				+ ", startCommitID=" + startCommitID + ", endCommitID=" + endCommitID + "]";
+//	}
+//	
 	@Override
 	public String toString() {
-		return "GitUserDTO [ownerId=" + ownerId + ", projectRepo=" + projectRepo + ", commitDate=" + commitDate
-				+ ", startCommitID=" + startCommitID + ", endCommitID=" + endCommitID + "]";
+		return comonUtility.toString();
 	}
 
 }

@@ -1,6 +1,6 @@
-package com.impactanalysis.utilities;
+package com.impactanalysis.constants;
 
-public interface Constants {
+public class CommonConstants {
 	
 	 public static final String GITHUB_VND_VALUE = "application/vnd.github.cloak-preview";
 	 
