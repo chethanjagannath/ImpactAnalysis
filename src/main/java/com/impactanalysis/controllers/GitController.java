@@ -1,9 +1,13 @@
 package com.impactanalysis.controllers;
 
+import java.util.Collections;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -17,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.impactanalysis.dto.GitUserDTO;
 import com.impactanalysis.response.IAResponse;
+import com.impactanalysis.utilities.MediaTypeSupport;
 
 @RestController
 @CrossOrigin
@@ -41,24 +46,32 @@ public class GitController {
 		logger.info("Printing PostCommitDetails" + gitUserDTO);
 
 	}
-	@PostMapping(value = "/getCommitDetailsByDate" , consumes="application/vnd.github.VERSION.sha",produces="application/vnd.github.VERSION.sha")
+	@PostMapping(value = "/getCommitDetailsByDate" , consumes = "application/json")
 	public void getCommitDetailsByDate(@RequestBody GitUserDTO gitUserDTO) {
-		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
-		//headers.add("Authorization", "Basic " + base64Creds);
-		headers.add("Content-type", "application/vnd.github.VERSION.sha");
-		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-
-		HttpEntity<GitUserDTO> request = new HttpEntity<GitUserDTO>(gitUserDTO, headers);
-
+//		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
+//		headers.add("Content-Type", "application/vnd.github.cloak-preview");
+//		headers.add("Accept", MediaTypeSupport.GITHUB_MEDIATYPE);
+//		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+//
+//		HttpEntity<GitUserDTO> request = new HttpEntity<GitUserDTO>(gitUserDTO, headers);
+//
+//		
+//		logger.info("Printing getCommitDetailsByDate" + gitUserDTO);
+//		try {
+//			restTemplate.getForObject(gitURI + "search/commits", IAResponse.class, request);
+//			//restTemplate.getForObject(gitURI + "search/commits", IAResponse.class);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		
-		logger.info("Printing getCommitDetailsByDate" + gitUserDTO);
-		try {
-			restTemplate.getForObject(gitURI + "search/commits", IAResponse.class, request);
-			//restTemplate.getForObject(gitURI + "search/commits", IAResponse.class);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		restTemplate = new RestTemplate();
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setAccept(Collections.singletonList(MediaTypeSupport.GITHUB_MEDIATYPE));
 
+		HttpEntity<String> entity = new HttpEntity<>("parameters", httpHeaders);
+
+		Object obj = restTemplate.exchange(gitURI + "/search/commits", HttpMethod.GET, entity, Object.class);
+		logger.info("Response Object:" + obj);
 	}
 
 	@PostMapping(value = "/getCommitDetailsByCommitId", consumes = "application/json")

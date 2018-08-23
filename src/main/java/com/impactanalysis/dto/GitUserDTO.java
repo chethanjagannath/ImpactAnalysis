@@ -14,7 +14,11 @@ public class GitUserDTO implements Serializable{
 	private LocalDate commitDate;
 	private String startCommitID;
 	private String endCommitID;
-
+    
+	public GitUserDTO() {
+		
+	}
+	
 	public String getOwnerId() {
 		return ownerId;
 	}

@@ -24,7 +24,11 @@ public class IAResponse implements Serializable{
 	private ArrayList<File> files;
 	private ArrayList<Item> items;
 	private ArrayList<Stat> stats;
-
+    
+	public IAResponse() {
+		
+	}
+	
 	public ArrayList<File> getFiles() {
 		return files;
 	}
