@@ -3,7 +3,7 @@ package com.impactanalysis.pojo;
 public class Item {
 	
 	private String url;
-	private String SHA;
+	private String sha;
 
 	public String getUrl() {
 		return url;
@@ -13,11 +13,11 @@ public class Item {
 		this.url = url;
 	}
 
-	public String getSHA() {
-		return SHA;
+	public String getSha() {
+		return sha;
 	}
 
-	public void setSHA(String sHA) {
-		SHA = sHA;
+	public void setSha(String sha) {
+		this.sha = sha;
 	}
 }
