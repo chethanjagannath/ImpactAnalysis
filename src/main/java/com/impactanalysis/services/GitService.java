@@ -16,7 +16,7 @@ public class GitService{
 	private GitClient gitClient;
 
 	public GitResponseDTO getCommitDetailsByDate(GitRequestDTO gitUserDTO) {
-		GitResponseDTO gitResponseDTO = gitClient.getCommitDetailsByDate();
+		GitResponseDTO gitResponseDTO = gitClient.getCommitDetailsByDate(gitUserDTO);
 		return gitResponseDTO;
 	}
 

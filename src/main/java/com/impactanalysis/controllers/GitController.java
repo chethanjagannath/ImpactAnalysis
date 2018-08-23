@@ -29,9 +29,9 @@ public class GitController {
 	}
 	
 	@PostMapping(value = "/getCommitDetailsByDate" , consumes = "application/json")
-	public GitResponseDTO getCommitDetailsByDate(@RequestBody GitRequestDTO gitUserDTO) {
-		GitResponseDTO gitResponseDTO = gitService.getCommitDetailsByDate(gitUserDTO);
-		logger.info("GetCommitDetailsByDate Request:" + gitUserDTO + "::Response:" + gitResponseDTO);
+	public GitResponseDTO getCommitDetailsByDate(@RequestBody GitRequestDTO gitRequestDTO) {
+		GitResponseDTO gitResponseDTO = gitService.getCommitDetailsByDate(gitRequestDTO);
+		logger.info("GetCommitDetailsByDate Request:" + gitRequestDTO + "::Response:" + gitResponseDTO);
 		return gitResponseDTO;
 	}
 

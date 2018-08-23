@@ -4,9 +4,10 @@ import java.io.IOException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+@Component
 public class CommonUtility {
 	
 	private static final Logger logger = LoggerFactory.getLogger(CommonUtility.class);

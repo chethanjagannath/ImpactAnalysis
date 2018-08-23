@@ -125,8 +125,8 @@ public class GitResponseDTO implements Serializable{
 		this.stats = stats;
 	}
 	
-	@Override
+	/*@Override
 	public String toString() {
 		return comonUtility.toString();
-	}
+	}*/
 }

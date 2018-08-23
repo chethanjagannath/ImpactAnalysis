@@ -117,15 +117,15 @@ public class GitRequestDTO implements Serializable{
 		return true;
 	}
 
-//	@Override
-//	public String toString() {
-//		return "GitUserDTO [ownerId=" + ownerId + ", projectRepo=" + projectRepo + ", commitDate=" + commitDate
-//				+ ", startCommitID=" + startCommitID + ", endCommitID=" + endCommitID + "]";
-//	}
-//	
 	@Override
+    public String toString() {
+ 		return "GitUserDTO [ownerId=" + ownerId + ", projectRepo=" + projectRepo + ", commitDate=" + commitDate
+			+ ", startCommitID=" + startCommitID + ", endCommitID=" + endCommitID + "]";
+	}
+	
+	/*@Override
 	public String toString() {
 		return comonUtility.toString();
-	}
+	}*/
 
 }
