@@ -19,5 +19,14 @@ public class GitService{
 		GitResponseDTO gitResponseDTO = gitClient.getCommitDetailsByDate(gitUserDTO);
 		return gitResponseDTO;
 	}
-
+	
+	public GitResponseDTO getCommitDetailsByCommitId(String commitId) {
+		GitResponseDTO gitResponseDTO = gitClient.getCommitDetailsByCommitId(commitId);
+		return gitResponseDTO;
+	}
+	
+	public GitResponseDTO getCommitDetailsBetweenCommitIds(String commitId1, String commitId2) {
+		GitResponseDTO gitResponseDTO = gitClient.getCommitDetailsBetweenCommitIds(commitId1, commitId2);
+		return gitResponseDTO;
+	}
 }

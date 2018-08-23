@@ -1,6 +1,8 @@
 package com.impactanalysis.pojo;
 
-public class Stat {
+import java.io.Serializable;
+
+public class Stat implements Serializable{
 	
 	private int total;
 	private int additions;

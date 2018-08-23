@@ -1,28 +1,29 @@
 package com.impactanalysis.pojo;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.impactanalysis.controllers.GitController;
 
-public class File {
+public class Files implements Serializable{
 	
 	private static final Logger logger = LoggerFactory.getLogger(GitController.class);
 	
-	private String SHA;
+	private String sha;
 	private String status;
 	private int additions;
 	private int deletions;
 	private int changes;
 
 	public String getSHA() {
-		return SHA;
+		return sha;
 	}
 
 	public void setSHA(String sHA) {
-		SHA = sHA;
+		sha = sHA;
 	}
 
 	public String getStatus() {
@@ -57,7 +58,7 @@ public class File {
 		this.changes = changes;
 	}
 	
-	public String toString() {
+/*	public String toString() {
 		String jsonString = "";
         try {
             final ObjectMapper mapper = new ObjectMapper();
@@ -67,5 +68,5 @@ public class File {
         	logger.error(String.format("Exception occured while converting object to json : %s ", jsonString));
         }
         return jsonString;
-	}
+	}*/
 }

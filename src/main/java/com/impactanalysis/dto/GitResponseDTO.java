@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.impactanalysis.pojo.File;
+import com.impactanalysis.pojo.Files;
 import com.impactanalysis.pojo.Item;
 import com.impactanalysis.pojo.Stat;
 import com.impactanalysis.utilities.CommonUtility;
@@ -29,19 +29,19 @@ public class GitResponseDTO implements Serializable{
 	private int ahead_by;
 	private int behind_by;
 	private int total_commits;
-	private ArrayList<File> files;
+	private ArrayList<Files> files;
 	private ArrayList<Item> items;
-	private ArrayList<Stat> stats;
+	private Stat stats;
     
 	public GitResponseDTO() {
 		
 	}
 	
-	public ArrayList<File> getFiles() {
+	public ArrayList<Files> getFiles() {
 		return files;
 	}
 
-	public void setFiles(ArrayList<File> files) {
+	public void setFiles(ArrayList<Files> files) {
 		this.files = files;
 	}
 
@@ -53,11 +53,11 @@ public class GitResponseDTO implements Serializable{
 		this.items = items;
 	}
 
-	public ArrayList<Stat> getStat() {
+	public Stat getStat() {
 		return stats;
 	}
 
-	public void setStat(ArrayList<Stat> stat) {
+	public void setStat(Stat stat) {
 		this.stats = stat;
 	}
 
@@ -115,14 +115,6 @@ public class GitResponseDTO implements Serializable{
 
 	public void setTotal_commits(int total_commits) {
 		this.total_commits = total_commits;
-	}
-
-	public ArrayList<Stat> getStats() {
-		return stats;
-	}
-
-	public void setStats(ArrayList<Stat> stats) {
-		this.stats = stats;
 	}
 	
 	/*@Override

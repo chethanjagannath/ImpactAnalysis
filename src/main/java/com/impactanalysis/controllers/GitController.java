@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.impactanalysis.dto.GitRequestDTO;
 import com.impactanalysis.dto.GitResponseDTO;
 import com.impactanalysis.services.GitService;
@@ -35,13 +37,17 @@ public class GitController {
 		return gitResponseDTO;
 	}
 
-	@PostMapping(value = "/getCommitDetailsByCommitId", consumes = "application/json")
-	public void getCommitDetailsByCommitId(@RequestBody GitRequestDTO gitUserDTO) {
-		//logger.info("GetCommitDetailsByCommitId Request:" + gitUserDTO + "::Response:" + gitResponseDTO);
+	@GetMapping(value = "/getCommitDetailsByCommitId", consumes = "application/json")
+	public GitResponseDTO getCommitDetailsByCommitId(@RequestParam (value="commitId") String commitId) {
+		GitResponseDTO gitResponseDTO = gitService.getCommitDetailsByCommitId(commitId);
+		logger.info("GetCommitDetailsByDate Request:" + commitId + "::Response:" + gitResponseDTO);
+		return gitResponseDTO;
 	}
 
-	@PostMapping(value = "/getCommitDetailsBetweenCommitIds", consumes = "application/json")
-	public void getCommitDetailsBetweenCommitIds(@RequestBody GitRequestDTO gitUserDTO) {
-		//logger.info("GetCommitDetailsBetweenCommitIds Request:" + gitUserDTO + "::Response:" + gitResponseDTO);
+	@GetMapping(value = "/getCommitDetailsBetweenCommitIds", consumes = "application/json")
+	public GitResponseDTO getCommitDetailsBetweenCommitIds(@RequestParam (value="commitId1") String commitId1, @RequestParam (value="commitId1") String commitId2) {
+		GitResponseDTO gitResponseDTO = gitService.getCommitDetailsBetweenCommitIds(commitId1 , commitId1);
+		logger.info("::Response:" + gitResponseDTO);
+		return gitResponseDTO;
 	}
 }
