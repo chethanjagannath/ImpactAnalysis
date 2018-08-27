@@ -38,7 +38,7 @@ public class GitController {
 		return "ImpactAnalysis Application is Up & Running";
 	}
 	
-	@ApiOperation(value = "Fetch the CommitDetails by giving Date", response = GitResponseDTO.class)
+	@ApiOperation(value = "Fetch all the commits for a day", response = GitResponseDTO.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"), @ApiResponse(code = 401, message = "You are not authorized to view the resource"), @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"), @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
 	@PostMapping(value = "/getCommitDetailsByDate" , consumes = "application/json")
 	public GitResponseDTO getCommitDetailsByDate(@RequestBody GitRequestDTO gitRequestDTO) {
@@ -49,7 +49,7 @@ public class GitController {
 	}
 	
 
-	@ApiOperation(value = "Fetch the CommitDetails by giving CommitId", response = GitResponseDTO.class)
+	@ApiOperation(value = "Fetch commit details for a commit id", response = GitResponseDTO.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"), @ApiResponse(code = 401, message = "You are not authorized to view the resource"), @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"), @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
 	@GetMapping(value = "/getCommitDetailsByCommitId", consumes = "application/json")
 	public GitResponseDTO getCommitDetailsByCommitId(@RequestParam (value="commitId") String commitId) {
