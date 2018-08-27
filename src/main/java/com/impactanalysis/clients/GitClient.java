@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
@@ -42,6 +43,7 @@ public class GitClient implements Serializable {
 	public GitResponseDTO getCommitDetailsByDate(GitRequestDTO gitRequestDTO) {
 
 		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		httpHeaders.setAccept(Collections.singletonList(MediaTypeSupport.GITHUB_MEDIATYPE));
 
 		HttpEntity<GitRequestDTO> request = new HttpEntity<GitRequestDTO>(null, httpHeaders);
@@ -55,69 +57,10 @@ public class GitClient implements Serializable {
 		try {
 			responseEntity = restTemplate.getForObject(URI, GitResponseDTO.class, request);
 		} catch (HttpClientErrorException e) {
-			System.out.println(e.getStatusCode().value());
-			System.out.println(e.getResponseBodyAsString());
+			logger.error("StatusCode:" + e.getStatusCode().value() + "::ResponseBody:" + e.getResponseBodyAsString());
 		} catch (HttpServerErrorException e) {
-			System.out.println(e.getStatusCode().value());
-			System.out.println(e.getResponseBodyAsString());
+			logger.error("StatusCode:" + e.getStatusCode().value() + "::ResponseBody:" + e.getResponseBodyAsString());
 		}
-
-		logger.info("Response Object:" + responseEntity);
-
-		return responseEntity;
-	}
-
-	public GitResponseDTO getCommitDetailsByCommitId(String commitId) {
-
-		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.setAccept(Collections.singletonList(MediaTypeSupport.GITHUB_MEDIATYPE_MERCY));
-
-		HttpEntity<GitRequestDTO> request = new HttpEntity<GitRequestDTO>(null, httpHeaders);
-
-		restTemplate.getMessageConverters().add(mappingJackson2HttpMessageConverter);
-
-		GitResponseDTO responseEntity = null;
-		String URI = gitURI + "/repos/chethanjagannath/ImpactAnalysis/commits/" + commitId;
-
-		logger.info(" URI :  " + URI);
-		try {
-			responseEntity = restTemplate.getForObject(URI, GitResponseDTO.class, request);
-		} catch (HttpClientErrorException e) {
-			System.out.println(e.getStatusCode().value());
-			System.out.println(e.getResponseBodyAsString());
-		} catch (HttpServerErrorException e) {
-			System.out.println(e.getStatusCode().value());
-			System.out.println(e.getResponseBodyAsString());
-		}
-		logger.info("Response Object:" + responseEntity);
-
-		return responseEntity;
-	}
-
-	public GitResponseDTO getCommitDetailsBetweenCommitIds(String commitId1, String commitId2) {
-
-		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.setAccept(Collections.singletonList(MediaTypeSupport.GITHUB_MEDIATYPE_MERCY));
-
-		HttpEntity<GitRequestDTO> request = new HttpEntity<GitRequestDTO>(null, httpHeaders);
-
-		restTemplate.getMessageConverters().add(mappingJackson2HttpMessageConverter);
-
-		GitResponseDTO responseEntity = null;
-		String URI = gitURI + "/repos/chethanjagannath/ImpactAnalysis/compare/" + commitId1 + "..." + commitId2;
-
-		logger.info(" URI :  " + URI);
-		try {
-			responseEntity = restTemplate.getForObject(URI, GitResponseDTO.class, request);
-		} catch (HttpClientErrorException e) {
-			System.out.println(e.getStatusCode().value());
-			System.out.println(e.getResponseBodyAsString());
-		} catch (HttpServerErrorException e) {
-			System.out.println(e.getStatusCode().value());
-			System.out.println(e.getResponseBodyAsString());
-		}
-
-		logger.info("Response Object:" + responseEntity);
 
 		return responseEntity;
 	}

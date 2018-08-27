@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.impactanalysis.dto.GitRequestDTO;
 import com.impactanalysis.dto.GitResponseDTO;
 import com.impactanalysis.services.GitService;
@@ -32,22 +31,9 @@ public class GitController {
 	
 	@PostMapping(value = "/getCommitDetailsByDate" , consumes = "application/json")
 	public GitResponseDTO getCommitDetailsByDate(@RequestBody GitRequestDTO gitRequestDTO) {
+		long startTime = System.currentTimeMillis();
 		GitResponseDTO gitResponseDTO = gitService.getCommitDetailsByDate(gitRequestDTO);
-		logger.info("GetCommitDetailsByDate Request:" + gitRequestDTO + "::Response:" + gitResponseDTO);
-		return gitResponseDTO;
-	}
-
-	@GetMapping(value = "/getCommitDetailsByCommitId", consumes = "application/json")
-	public GitResponseDTO getCommitDetailsByCommitId(@RequestParam (value="commitId") String commitId) {
-		GitResponseDTO gitResponseDTO = gitService.getCommitDetailsByCommitId(commitId);
-		logger.info("GetCommitDetailsByDate Request:" + commitId + "::Response:" + gitResponseDTO);
-		return gitResponseDTO;
-	}
-
-	@GetMapping(value = "/getCommitDetailsBetweenCommitIds", consumes = "application/json")
-	public GitResponseDTO getCommitDetailsBetweenCommitIds(@RequestParam (value="commitId1") String commitId1, @RequestParam (value="commitId1") String commitId2) {
-		GitResponseDTO gitResponseDTO = gitService.getCommitDetailsBetweenCommitIds(commitId1 , commitId1);
-		logger.info("::Response:" + gitResponseDTO);
+		logger.info(String.format("API::GetCommitDetailsByDate Request=%s, Response=%s, TimeTaken=%s Milliseconds", gitRequestDTO, gitResponseDTO, System.currentTimeMillis()-startTime));
 		return gitResponseDTO;
 	}
 }
