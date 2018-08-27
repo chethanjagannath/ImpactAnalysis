@@ -36,4 +36,13 @@ public class GitController {
 		logger.info(String.format("API::GetCommitDetailsByDate Request=%s, Response=%s, TimeTaken=%s Milliseconds", gitRequestDTO, gitResponseDTO, System.currentTimeMillis()-startTime));
 		return gitResponseDTO;
 	}
+	
+
+	@GetMapping(value = "/getCommitDetailsByCommitId", consumes = "application/json")
+	public GitResponseDTO getCommitDetailsByCommitId(@RequestParam (value="commitId") String commitId) {
+		long startTime = System.currentTimeMillis();
+		GitResponseDTO gitResponseDTO = gitService.getCommitDetailsByCommitId(commitId);
+		logger.info(String.format("API::GetCommitDetailsByCommitId Response=%s, TimeTaken=%s Milliseconds", gitResponseDTO, System.currentTimeMillis()-startTime));		
+		return gitResponseDTO;
+	}
 }
