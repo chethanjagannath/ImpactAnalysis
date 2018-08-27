@@ -15,7 +15,7 @@ import com.impactanalysis.utilities.CommonUtility;
 public class GitRequestDTO implements Serializable{
 	
 	@Autowired
-	private CommonUtility comonUtility;
+	private CommonUtility commonUtility;
 
 	private static final long serialVersionUID = 1L;
 	
@@ -117,15 +117,15 @@ public class GitRequestDTO implements Serializable{
 		return true;
 	}
 
+//	@Override
+//    public String toString() {
+// 		return "GitUserDTO [ownerId=" + ownerId + ", projectRepo=" + projectRepo + ", commitDate=" + commitDate
+//			+ ", startCommitID=" + startCommitID + ", endCommitID=" + endCommitID + "]";
+//	}
+//	
 	@Override
-    public String toString() {
- 		return "GitUserDTO [ownerId=" + ownerId + ", projectRepo=" + projectRepo + ", commitDate=" + commitDate
-			+ ", startCommitID=" + startCommitID + ", endCommitID=" + endCommitID + "]";
-	}
-	
-	/*@Override
 	public String toString() {
-		return comonUtility.toString();
-	}*/
+		return commonUtility.toJson(this);
+	}
 
 }

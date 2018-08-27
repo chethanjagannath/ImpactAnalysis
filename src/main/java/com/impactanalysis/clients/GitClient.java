@@ -52,8 +52,6 @@ public class GitClient implements Serializable {
 		String URI = gitURI + "/search/commits?q=repo:" + gitRequestDTO.getOwnerId() + "/"
 				+ gitRequestDTO.getProjectRepo() + "+committer-date:" + gitRequestDTO.getCommitDate();
 
-		logger.info("RequestDetails:" + gitRequestDTO + " URI :  " + URI);
-
 		try {
 			responseEntity = restTemplate.getForObject(URI, GitResponseDTO.class, request);
 		} catch (HttpClientErrorException e) {

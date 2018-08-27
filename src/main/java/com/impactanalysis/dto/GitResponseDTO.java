@@ -20,7 +20,7 @@ public class GitResponseDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Autowired
-	private CommonUtility comonUtility;
+	private CommonUtility commonUtility;
 	
 	private int total_count;
 	private String sha;
@@ -117,8 +117,8 @@ public class GitResponseDTO implements Serializable{
 		this.total_commits = total_commits;
 	}
 	
-	/*@Override
+	@Override
 	public String toString() {
-		return comonUtility.toString();
-	}*/
+		return commonUtility.toJson(this);
+	}
 }
