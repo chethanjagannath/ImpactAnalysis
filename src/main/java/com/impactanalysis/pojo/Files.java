@@ -6,18 +6,18 @@ public class Files implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
-	private String sha;
+	private String filename;
 	private String status;
 	private int additions;
 	private int deletions;
 	private int changes;
 
-	public String getSHA() {
-		return sha;
+	public String getFilename() {
+		return filename;
 	}
 
-	public void setSHA(String sHA) {
-		sha = sHA;
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 
 	public String getStatus() {

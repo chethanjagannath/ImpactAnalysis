@@ -51,11 +51,11 @@ public class GitController {
 
 	@ApiOperation(value = "Fetch commit details for a commit id", response = GitResponseDTO.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"), @ApiResponse(code = 401, message = "You are not authorized to view the resource"), @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"), @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
-	@GetMapping(value = "/getCommitDetailsByCommitId", consumes = "application/json")
-	public GitResponseDTO getCommitDetailsByCommitId(@RequestParam (value="commitId") String commitId) {
+	@PostMapping(value = "/getCommitDetailsByCommitId", consumes = "application/json")
+	public GitResponseDTO getCommitDetailsByCommitId(@RequestBody GitRequestDTO gitRequestDTO) {
 		long startTime = System.currentTimeMillis();
-		GitResponseDTO gitResponseDTO = gitService.getCommitDetailsByCommitId(commitId);
-		logger.info(String.format("API::GetCommitDetailsByCommitId Response=%s, TimeTaken=%s Milliseconds", gitResponseDTO, System.currentTimeMillis()-startTime));		
+		GitResponseDTO gitResponseDTO = gitService.getCommitDetailsByCommitId(gitRequestDTO);
+		logger.info(String.format("API::GetCommitDetailsByCommitId Request=%s, Response=%s, TimeTaken=%s Milliseconds", gitRequestDTO, gitResponseDTO, System.currentTimeMillis()-startTime));
 		return gitResponseDTO;
 	}
 }

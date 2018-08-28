@@ -19,19 +19,11 @@ public class GitRequestDTO implements Serializable{
 	
 	private String repositoryOwnerId;
 	private String repositoryName;
-	private String startCommitID;
-	private String endCommitID;
+	private String startCommitId;
+	private String endCommitId;
 	private LocalDate commitDate;
     
 	public GitRequestDTO() {
-	}
-	
-	public CommonUtility getCommonUtility() {
-		return commonUtility;
-	}
-
-	public void setCommonUtility(CommonUtility commonUtility) {
-		this.commonUtility = commonUtility;
 	}
 
 	public String getRepositoryOwnerId() {
@@ -50,20 +42,20 @@ public class GitRequestDTO implements Serializable{
 		this.repositoryName = repositoryName;
 	}
 
-	public String getStartCommitID() {
-		return startCommitID;
+	public String getStartCommitId() {
+		return startCommitId;
 	}
 
-	public void setStartCommitID(String startCommitID) {
-		this.startCommitID = startCommitID;
+	public void setStartCommitId(String startCommitId) {
+		this.startCommitId = startCommitId;
 	}
 
-	public String getEndCommitID() {
-		return endCommitID;
+	public String getEndCommitId() {
+		return endCommitId;
 	}
 
-	public void setEndCommitID(String endCommitID) {
-		this.endCommitID = endCommitID;
+	public void setEndCommitId(String endCommitId) {
+		this.endCommitId = endCommitId;
 	}
 
 	public LocalDate getCommitDate() {
@@ -79,10 +71,10 @@ public class GitRequestDTO implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((commitDate == null) ? 0 : commitDate.hashCode());
-		result = prime * result + ((endCommitID == null) ? 0 : endCommitID.hashCode());
+		result = prime * result + ((endCommitId == null) ? 0 : endCommitId.hashCode());
 		result = prime * result + ((repositoryOwnerId == null) ? 0 : repositoryOwnerId.hashCode());
 		result = prime * result + ((repositoryName == null) ? 0 : repositoryName.hashCode());
-		result = prime * result + ((startCommitID == null) ? 0 : startCommitID.hashCode());
+		result = prime * result + ((startCommitId == null) ? 0 : startCommitId.hashCode());
 		return result;
 	}
 
@@ -100,10 +92,10 @@ public class GitRequestDTO implements Serializable{
 				return false;
 		} else if (!commitDate.equals(other.commitDate))
 			return false;
-		if (endCommitID == null) {
-			if (other.endCommitID != null)
+		if (endCommitId == null) {
+			if (other.endCommitId != null)
 				return false;
-		} else if (!endCommitID.equals(other.endCommitID))
+		} else if (!endCommitId.equals(other.endCommitId))
 			return false;
 		if (repositoryOwnerId == null) {
 			if (other.repositoryOwnerId != null)
@@ -115,10 +107,10 @@ public class GitRequestDTO implements Serializable{
 				return false;
 		} else if (!repositoryName.equals(other.repositoryName))
 			return false;
-		if (startCommitID == null) {
-			if (other.startCommitID != null)
+		if (startCommitId == null) {
+			if (other.startCommitId != null)
 				return false;
-		} else if (!startCommitID.equals(other.startCommitID))
+		} else if (!startCommitId.equals(other.startCommitId))
 			return false;
 		return true;
 	}

@@ -22,51 +22,19 @@ public class GitResponseDTO implements Serializable{
 	@Autowired
 	private CommonUtility commonUtility;
 	
-	private int total_count;
 	private String sha;
 	private String url;
 	private String status;
-	private int ahead_by;
-	private int behind_by;
-	private int total_commits;
+	private Integer ahead_by;
+	private Integer behind_by;
+	private Integer total_commits;
+	private Integer totalFiles;
 	private ArrayList<Files> files;
+	private Integer totalItems;
 	private ArrayList<Item> items;
 	private Stat stats;
     
-	public GitResponseDTO() {
-		
-	}
-	
-	public ArrayList<Files> getFiles() {
-		return files;
-	}
-
-	public void setFiles(ArrayList<Files> files) {
-		this.files = files;
-	}
-
-	public ArrayList<Item> getItems() {
-		return items;
-	}
-
-	public void setItems(ArrayList<Item> items) {
-		this.items = items;
-	}
-
-	public Stat getStat() {
-		return stats;
-	}
-
-	public void setStat(Stat stat) {
-		this.stats = stat;
-	}
-
-	public int getTotal_count() {
-		return total_count;
-	}
-
-	public void setTotal_count(int total_count) {
-		this.total_count = total_count;
+	public GitResponseDTO() {	
 	}
 
 	public String getSha() {
@@ -93,30 +61,70 @@ public class GitResponseDTO implements Serializable{
 		this.status = status;
 	}
 
-	public int getAhead_by() {
+	public Integer getAhead_by() {
 		return ahead_by;
 	}
 
-	public void setAhead_by(int ahead_by) {
+	public void setAhead_by(Integer ahead_by) {
 		this.ahead_by = ahead_by;
 	}
 
-	public int getBehind_by() {
+	public Integer getBehind_by() {
 		return behind_by;
 	}
 
-	public void setBehind_by(int behind_by) {
+	public void setBehind_by(Integer behind_by) {
 		this.behind_by = behind_by;
 	}
 
-	public int getTotal_commits() {
+	public Integer getTotal_commits() {
 		return total_commits;
 	}
 
-	public void setTotal_commits(int total_commits) {
+	public void setTotal_commits(Integer total_commits) {
 		this.total_commits = total_commits;
 	}
-	
+
+	public Integer getTotalFiles() {
+		return totalFiles;
+	}
+
+	public void setTotalFiles(Integer totalFiles) {
+		this.totalFiles = totalFiles;
+	}
+
+	public ArrayList<Files> getFiles() {
+		return files;
+	}
+
+	public void setFiles(ArrayList<Files> files) {
+		this.files = files;
+	}
+
+	public Integer getTotalItems() {
+		return totalItems;
+	}
+
+	public void setTotalItems(Integer totalItems) {
+		this.totalItems = totalItems;
+	}
+
+	public ArrayList<Item> getItems() {
+		return items;
+	}
+
+	public void setItems(ArrayList<Item> items) {
+		this.items = items;
+	}
+
+	public Stat getStats() {
+		return stats;
+	}
+
+	public void setStats(Stat stats) {
+		this.stats = stats;
+	}
+
 	@Override
 	public String toString() {
 		return commonUtility.toJson(this);
