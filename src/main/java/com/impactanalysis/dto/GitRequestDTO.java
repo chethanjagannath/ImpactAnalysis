@@ -2,9 +2,7 @@ package com.impactanalysis.dto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -19,8 +17,8 @@ public class GitRequestDTO implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	private String ownerId;
-	private String projectRepo;
+	private String repositoryOwnerId;
+	private String repositoryName;
 	private String startCommitID;
 	private String endCommitID;
 	private LocalDate commitDate;
@@ -28,28 +26,28 @@ public class GitRequestDTO implements Serializable{
 	public GitRequestDTO() {
 	}
 	
-	public String getOwnerId() {
-		return ownerId;
+	public CommonUtility getCommonUtility() {
+		return commonUtility;
 	}
 
-	public void setOwnerId(String ownerId) {
-		this.ownerId = ownerId;
+	public void setCommonUtility(CommonUtility commonUtility) {
+		this.commonUtility = commonUtility;
 	}
 
-	public String getProjectRepo() {
-		return projectRepo;
+	public String getRepositoryOwnerId() {
+		return repositoryOwnerId;
 	}
 
-	public void setProjectRepo(String projectRepo) {
-		this.projectRepo = projectRepo;
+	public void setRepositoryOwnerId(String repositoryOwnerId) {
+		this.repositoryOwnerId = repositoryOwnerId;
 	}
 
-	public LocalDate getCommitDate() {
-		return commitDate;
+	public String getRepositoryName() {
+		return repositoryName;
 	}
 
-	public void setCommitDate(LocalDate commitDate) {
-		this.commitDate = commitDate;
+	public void setRepositoryName(String repositoryName) {
+		this.repositoryName = repositoryName;
 	}
 
 	public String getStartCommitID() {
@@ -68,14 +66,22 @@ public class GitRequestDTO implements Serializable{
 		this.endCommitID = endCommitID;
 	}
 
+	public LocalDate getCommitDate() {
+		return commitDate;
+	}
+
+	public void setCommitDate(LocalDate commitDate) {
+		this.commitDate = commitDate;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((commitDate == null) ? 0 : commitDate.hashCode());
 		result = prime * result + ((endCommitID == null) ? 0 : endCommitID.hashCode());
-		result = prime * result + ((ownerId == null) ? 0 : ownerId.hashCode());
-		result = prime * result + ((projectRepo == null) ? 0 : projectRepo.hashCode());
+		result = prime * result + ((repositoryOwnerId == null) ? 0 : repositoryOwnerId.hashCode());
+		result = prime * result + ((repositoryName == null) ? 0 : repositoryName.hashCode());
 		result = prime * result + ((startCommitID == null) ? 0 : startCommitID.hashCode());
 		return result;
 	}
@@ -99,15 +105,15 @@ public class GitRequestDTO implements Serializable{
 				return false;
 		} else if (!endCommitID.equals(other.endCommitID))
 			return false;
-		if (ownerId == null) {
-			if (other.ownerId != null)
+		if (repositoryOwnerId == null) {
+			if (other.repositoryOwnerId != null)
 				return false;
-		} else if (!ownerId.equals(other.ownerId))
+		} else if (!repositoryOwnerId.equals(other.repositoryOwnerId))
 			return false;
-		if (projectRepo == null) {
-			if (other.projectRepo != null)
+		if (repositoryName == null) {
+			if (other.repositoryName != null)
 				return false;
-		} else if (!projectRepo.equals(other.projectRepo))
+		} else if (!repositoryName.equals(other.repositoryName))
 			return false;
 		if (startCommitID == null) {
 			if (other.startCommitID != null)
@@ -117,15 +123,8 @@ public class GitRequestDTO implements Serializable{
 		return true;
 	}
 
-//	@Override
-//    public String toString() {
-// 		return "GitUserDTO [ownerId=" + ownerId + ", projectRepo=" + projectRepo + ", commitDate=" + commitDate
-//			+ ", startCommitID=" + startCommitID + ", endCommitID=" + endCommitID + "]";
-//	}
-//	
 	@Override
 	public String toString() {
 		return commonUtility.toJson(this);
 	}
-
 }

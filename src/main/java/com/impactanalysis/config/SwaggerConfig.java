@@ -39,10 +39,10 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
 	private ApiInfo metaData() {
         ApiInfo apiInfo = new ApiInfo(
                 "Impact Analysis Application",
-                "Impact Analysis Application For Cisco CSIT",
+                "For Cisco CSIT",
                 "1.0",
                 "Terms of service",
-                new Contact("Chethan Jagannath, Anil Chowdary", "", ""),
+                new Contact("Chethan Jagannath & Anil Chowdhary", "", ""),
                 "",
                 "");
         return apiInfo;

@@ -51,8 +51,8 @@ public class GitClient implements Serializable {
 		restTemplate.getMessageConverters().add(mappingJackson2HttpMessageConverter);
 
 		GitResponseDTO responseEntity = null;
-		String URI = gitURI + "/search/commits?q=repo:" + gitRequestDTO.getOwnerId() + "/"
-				+ gitRequestDTO.getProjectRepo() + "+committer-date:" + gitRequestDTO.getCommitDate();
+		String URI = gitURI + "/search/commits?q=repo:" + gitRequestDTO.getRepositoryOwnerId() + "/"
+				+ gitRequestDTO.getRepositoryName()+ "+committer-date:" + gitRequestDTO.getCommitDate();
 
 		try {
 			responseEntity = restTemplate.getForObject(URI, GitResponseDTO.class, request);
