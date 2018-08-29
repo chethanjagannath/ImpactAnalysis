@@ -34,8 +34,8 @@ public class GitClient implements Serializable {
 
 	private static final Logger logger = LoggerFactory.getLogger(GitClient.class);
 
-	@Value("${git.repo.url}")
-	private String gitURI;
+	@Value("${git.repository.url}")
+	private String gitRespositoryURL;
 
 	@Autowired
 	MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter;
@@ -51,9 +51,39 @@ public class GitClient implements Serializable {
 		restTemplate.getMessageConverters().add(mappingJackson2HttpMessageConverter);
 
 		GitResponseDTO responseEntity = null;
-		String URI = gitURI + "/search/commits?q=repo:" + gitRequestDTO.getOwnerId() + "/"
-				+ gitRequestDTO.getProjectRepo() + "+committer-date:" + gitRequestDTO.getCommitDate();
+		String URI = gitRespositoryURL + "/search/commits?q=repo:" + gitRequestDTO.getRepositoryOwnerId() + "/"
+				+ gitRequestDTO.getRepositoryName()+ "+committer-date:" + gitRequestDTO.getCommitDate();
 
+		logger.info("API::getCommitDetailsByDate -> Requesting URI:" + URI);
+		
+		try {
+			responseEntity = restTemplate.getForObject(URI, GitResponseDTO.class, request);
+		} catch (HttpClientErrorException e) {
+			logger.error("StatusCode:" + e.getStatusCode().value() + "::ResponseBody:" + e.getResponseBodyAsString());
+		} catch (HttpServerErrorException e) {
+			logger.error("StatusCode:" + e.getStatusCode().value() + "::ResponseBody:" + e.getResponseBodyAsString());
+		}
+
+		return responseEntity;
+	}
+	
+	public GitResponseDTO getCommitDetailsByCommitId(GitRequestDTO gitRequestDTO) {
+
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		httpHeaders.setAccept(Collections.singletonList(MediaTypeSupport.GITHUB_MEDIATYPE_MERCY));
+
+		HttpEntity<GitRequestDTO> request = new HttpEntity<GitRequestDTO>(null, httpHeaders);
+
+		restTemplate.getMessageConverters().add(mappingJackson2HttpMessageConverter);
+
+		GitResponseDTO responseEntity = null;
+
+		String URI = gitRespositoryURL + "/repos/" + gitRequestDTO.getRepositoryOwnerId() + "/"
+				+ gitRequestDTO.getRepositoryName() + "/commits/" + gitRequestDTO.getStartCommitId();
+
+		logger.info("API::getCommitDetailsByCommitId -> Requesting URI:" + URI);
+		
 		try {
 			responseEntity = restTemplate.getForObject(URI, GitResponseDTO.class, request);
 		} catch (HttpClientErrorException e) {

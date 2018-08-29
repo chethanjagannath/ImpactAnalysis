@@ -7,7 +7,6 @@ public class Committer implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private String name;
-	private String email;
 	private String date;
 	
 	public String getName() {
@@ -15,12 +14,6 @@ public class Committer implements Serializable{
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
 	}
 	public String getDate() {
 		return date;
