@@ -1,7 +1,7 @@
 package com.impactanalysis.dto;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,64 +19,64 @@ public class MapRequestDTO implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
-	private Integer apiId;
+	private String apiId;
 	private String apiName;
-	private List<String> pathParams;
-	private List<String> queryParams;
-	private List<String> fileNames;
-	private List<String> testSuites;
+	private HashSet<String> pathParams;
+	private HashSet<String> queryParams;
+	private HashSet<String> fileNames;
+	private HashSet<String> testSuiteNames;
 	
 	public MapRequestDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Integer getApiId() {
+	public String getApiId() {
 		return apiId;
 	}
 
-	public void setApiId(Integer apiId) {
+	public void setApiId(String apiId) {
 		this.apiId = apiId;
 	}
 
 	public String getApiName() {
 		return apiName;
 	}
-	
+
 	public void setApiName(String apiName) {
 		this.apiName = apiName;
 	}
-	
-	public List<String> getPathParams() {
+
+	public HashSet<String> getPathParams() {
 		return pathParams;
 	}
-	
-	public void setPathParams(List<String> pathParams) {
+
+	public void setPathParams(HashSet<String> pathParams) {
 		this.pathParams = pathParams;
 	}
-	
-	public List<String> getQueryParams() {
+
+	public HashSet<String> getQueryParams() {
 		return queryParams;
 	}
-	
-	public void setQueryParams(List<String> queryParams) {
+
+	public void setQueryParams(HashSet<String> queryParams) {
 		this.queryParams = queryParams;
 	}
-	
-	public List<String> getFileNames() {
+
+	public HashSet<String> getFileNames() {
 		return fileNames;
 	}
-	
-	public void setFileNames(List<String> fileNames) {
+
+	public void setFileNames(HashSet<String> fileNames) {
 		this.fileNames = fileNames;
 	}
-	
-	public List<String> getTestSuites() {
-		return testSuites;
+
+	public HashSet<String> getTestSuiteNames() {
+		return testSuiteNames;
 	}
-	
-	public void setTestSuites(List<String> testSuites) {
-		this.testSuites = testSuites;
+
+	public void setTestSuiteNames(HashSet<String> testSuiteNames) {
+		this.testSuiteNames = testSuiteNames;
 	}
 
 	@Override
