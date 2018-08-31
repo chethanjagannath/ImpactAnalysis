@@ -32,7 +32,7 @@ public class GitClient implements Serializable {
 
 	RestTemplate restTemplate = new RestTemplate();
 
-	private static final Logger logger = LoggerFactory.getLogger(GitClient.class);
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Value("${git.repository.url}")
 	private String gitRespositoryURL;
@@ -91,6 +91,35 @@ public class GitClient implements Serializable {
 		} catch (HttpServerErrorException e) {
 			logger.error("StatusCode:" + e.getStatusCode().value() + "::ResponseBody:" + e.getResponseBodyAsString());
 		}
+
+		return responseEntity;
+	}
+	
+	public GitResponseDTO getCommitDetailsBetweenCommitIds(GitRequestDTO gitRequestDTO) {
+
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setAccept(Collections.singletonList(MediaTypeSupport.GITHUB_MEDIATYPE_MERCY));
+
+		HttpEntity<GitRequestDTO> request = new HttpEntity<GitRequestDTO>(null, httpHeaders);
+
+		restTemplate.getMessageConverters().add(mappingJackson2HttpMessageConverter);
+
+		GitResponseDTO responseEntity = null;
+
+		String URI = gitRespositoryURL + "/repos/" + gitRequestDTO.getRepositoryOwnerId() + "/"
+					+ gitRequestDTO.getRepositoryName() + "/compare/" + gitRequestDTO.getStartCommitId() + "..." + gitRequestDTO.getEndCommitId();
+		
+		logger.info("API::getCommitDetailsByCommitId -> Requesting URI:" + URI);
+		
+		try {
+		responseEntity = restTemplate.getForObject(URI, GitResponseDTO.class, request);
+		} catch (HttpClientErrorException e) {
+			logger.error("StatusCode:" + e.getStatusCode().value() + "::ResponseBody:" + e.getResponseBodyAsString());
+		} catch (HttpServerErrorException e) {
+			logger.error("StatusCode:" + e.getStatusCode().value() + "::ResponseBody:" + e.getResponseBodyAsString());
+		}
+
+		logger.info("Response Object:" + responseEntity);
 
 		return responseEntity;
 	}

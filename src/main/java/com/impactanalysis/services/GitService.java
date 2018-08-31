@@ -2,7 +2,6 @@ package com.impactanalysis.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.impactanalysis.clients.GitClient;
 import com.impactanalysis.dto.GitRequestDTO;
 import com.impactanalysis.dto.GitResponseDTO;
@@ -24,6 +23,11 @@ public class GitService{
 	
 	public GitResponseDTO getCommitDetailsByCommitId(GitRequestDTO gitUserDTO) {
 		GitResponseDTO gitResponseDTO = gitClient.getCommitDetailsByCommitId(gitUserDTO);
+		return gitProcessor.processResponse(gitResponseDTO);
+	}
+	
+	public GitResponseDTO getCommitDetailsBetweenCommitIds(GitRequestDTO gitUserDTO) {
+		GitResponseDTO gitResponseDTO = gitClient.getCommitDetailsBetweenCommitIds(gitUserDTO);
 		return gitProcessor.processResponse(gitResponseDTO);
 	}
 }
