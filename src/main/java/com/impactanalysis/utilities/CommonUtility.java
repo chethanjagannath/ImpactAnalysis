@@ -1,6 +1,8 @@
 package com.impactanalysis.utilities;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -22,4 +24,8 @@ public class CommonUtility {
         }
         return jsonString;
 	}
+	
+//	private static List<String> strConvertClsToJava(List<String> inputList) {
+//		return inputList.stream().map(e -> e.replace(".", "/")).map(e -> e + ".java").collect(Collectors.toList());
+//	}
 }
