@@ -26,4 +26,9 @@ public class GitService{
 		GitResponseDTO gitResponseDTO = gitClient.getCommitDetailsByCommitId(gitUserDTO);
 		return gitProcessor.processResponse(gitResponseDTO);
 	}
+	
+	public GitResponseDTO getCommitDetailsBetweenCommitIds(GitRequestDTO gitUserDTO) {
+		GitResponseDTO gitResponseDTO = gitClient.getCommitDetailsBetweenCommitIds(gitUserDTO);
+		return gitProcessor.processResponse(gitResponseDTO);
+	}
 }

@@ -1,6 +1,8 @@
 package com.impactanalysis.utilities;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -21,5 +23,9 @@ public class CommonUtility {
         	logger.error(String.format("Exception occured while converting object to json : %s ", jsonString));
         }
         return jsonString;
+	}
+	
+	private static List<String> strConvertClsToJava(List<String> inputList) {
+		return inputList.stream().map(e -> e.replace(".", "/")).map(e -> e + ".java").collect(Collectors.toList());
 	}
 }
