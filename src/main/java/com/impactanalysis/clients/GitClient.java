@@ -2,7 +2,6 @@ package com.impactanalysis.clients;
 
 import java.io.Serializable;
 import java.util.Collections;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -112,11 +110,11 @@ public class GitClient implements Serializable {
 		logger.info("API::getCommitDetailsByCommitId -> Requesting URI:" + URI);
 		
 		try {
-		responseEntity = restTemplate.getForObject(URI, GitResponseDTO.class, request);
+			responseEntity = restTemplate.getForObject(URI, GitResponseDTO.class, request);
 		} catch (HttpClientErrorException e) {
-			logger.error("StatusCode:" + e.getStatusCode().value() + "::ResponseBody:" + e.getResponseBodyAsString());
+				logger.error("StatusCode:" + e.getStatusCode().value() + "::ResponseBody:" + e.getResponseBodyAsString());
 		} catch (HttpServerErrorException e) {
-			logger.error("StatusCode:" + e.getStatusCode().value() + "::ResponseBody:" + e.getResponseBodyAsString());
+				logger.error("StatusCode:" + e.getStatusCode().value() + "::ResponseBody:" + e.getResponseBodyAsString());
 		}
 
 		logger.info("Response Object:" + responseEntity);
