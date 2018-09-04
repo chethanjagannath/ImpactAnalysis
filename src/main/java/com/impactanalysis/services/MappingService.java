@@ -2,10 +2,19 @@ package com.impactanalysis.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
+import com.impactanalysis.clients.GitClient;
+import com.impactanalysis.dto.GitRequestDTO;
+import com.impactanalysis.dto.GitResponseDTO;
+import com.impactanalysis.dto.ImpactDTO;
 import com.impactanalysis.dto.MappingRequestDTO;
 import com.impactanalysis.entities.MappingEntity;
 import com.impactanalysis.exceptions.EntityNotFoundException;
@@ -20,6 +29,11 @@ public class MappingService {
 	
 	@Autowired
 	private MappingRespository mappingRespository;
+	
+	@Autowired
+	private GitClient gitClient;
+	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	public MappingEntity createAPI(MappingRequestDTO mappingRequest) {
 		mappingProcessor.validateRequest(mappingRequest, true);
@@ -60,4 +74,16 @@ public class MappingService {
 	public List<MappingEntity> getAllAPI() {
 		return mappingRespository.findAll();
 	}
+
+/*	public ImpactDTO fetchImpactedTestSuites(GitRequestDTO gitRequestDTO) {
+		GitResponseDTO gitResponseDTO = gitClient.getCommitDetailsBetweenCommitIds(gitRequestDTO);
+		Set<String> impactedFilesList = null;
+		if(!ObjectUtils.isEmpty(gitResponseDTO)) {
+			impactedFilesList = gitResponseDTO.getFiles().stream().map(f -> f.getFilename()).collect(Collectors.toSet());
+		}
+		
+		logger.info("ImpactedFilesList:" + impactedFilesList);
+		
+		return new ImpactDTO();
+	}*/
 }
