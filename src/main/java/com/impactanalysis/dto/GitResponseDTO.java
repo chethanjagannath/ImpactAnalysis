@@ -24,15 +24,11 @@ public class GitResponseDTO implements Serializable{
 	
 	private String sha;
 	private String url;
-	private String status;
-	private Integer ahead_by;
-	private Integer behind_by;
 	private Integer total_commits;
 	private Integer totalFiles;
 	private ArrayList<File> files;
 	private Integer totalItems;
 	private ArrayList<Item> items;
-	private Stat stats;
     
 	public GitResponseDTO() {	
 	}
@@ -51,30 +47,6 @@ public class GitResponseDTO implements Serializable{
 
 	public void setUrl(String url) {
 		this.url = url;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public Integer getAhead_by() {
-		return ahead_by;
-	}
-
-	public void setAhead_by(Integer ahead_by) {
-		this.ahead_by = ahead_by;
-	}
-
-	public Integer getBehind_by() {
-		return behind_by;
-	}
-
-	public void setBehind_by(Integer behind_by) {
-		this.behind_by = behind_by;
 	}
 
 	public Integer getTotal_commits() {
@@ -115,14 +87,6 @@ public class GitResponseDTO implements Serializable{
 
 	public void setItems(ArrayList<Item> items) {
 		this.items = items;
-	}
-
-	public Stat getStats() {
-		return stats;
-	}
-
-	public void setStats(Stat stats) {
-		this.stats = stats;
 	}
 
 	@Override
