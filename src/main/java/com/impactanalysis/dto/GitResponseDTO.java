@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.impactanalysis.pojo.Files;
+import com.impactanalysis.pojo.File;
 import com.impactanalysis.pojo.Item;
 import com.impactanalysis.pojo.Stat;
 import com.impactanalysis.utilities.CommonUtility;
@@ -29,7 +29,7 @@ public class GitResponseDTO implements Serializable{
 	private Integer behind_by;
 	private Integer total_commits;
 	private Integer totalFiles;
-	private ArrayList<Files> files;
+	private ArrayList<File> files;
 	private Integer totalItems;
 	private ArrayList<Item> items;
 	private Stat stats;
@@ -93,11 +93,11 @@ public class GitResponseDTO implements Serializable{
 		this.totalFiles = totalFiles;
 	}
 
-	public ArrayList<Files> getFiles() {
+	public ArrayList<File> getFiles() {
 		return files;
 	}
 
-	public void setFiles(ArrayList<Files> files) {
+	public void setFiles(ArrayList<File> files) {
 		this.files = files;
 	}
 

@@ -1,6 +1,7 @@
 package com.impactanalysis.repositories;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -16,5 +17,7 @@ public interface MappingRespository extends JpaRepository<MappingEntity,Integer>
 	
 	@Transactional(readOnly = true, timeout=100000)
 	List<MappingEntity> findByApiName(String apiName);
+	
+	@Transactional(readOnly = true, timeout=100000)
+	List<MappingEntity> findByFileNamesIn(Set<String> impactedFilesList);
 }
-

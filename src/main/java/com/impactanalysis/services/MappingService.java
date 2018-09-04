@@ -1,9 +1,9 @@
 package com.impactanalysis.services;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +18,7 @@ import com.impactanalysis.dto.ImpactDTO;
 import com.impactanalysis.dto.MappingRequestDTO;
 import com.impactanalysis.entities.MappingEntity;
 import com.impactanalysis.exceptions.EntityNotFoundException;
+import com.impactanalysis.pojo.File;
 import com.impactanalysis.processors.MappingProcessor;
 import com.impactanalysis.repositories.MappingRespository;
 
@@ -75,15 +76,20 @@ public class MappingService {
 		return mappingRespository.findAll();
 	}
 
-/*	public ImpactDTO fetchImpactedTestSuites(GitRequestDTO gitRequestDTO) {
+	public ImpactDTO fetchImpactedTestSuites(GitRequestDTO gitRequestDTO) {
 		GitResponseDTO gitResponseDTO = gitClient.getCommitDetailsBetweenCommitIds(gitRequestDTO);
-		Set<String> impactedFilesList = null;
+		Set<String> impactedFilesList = new HashSet<>();
 		if(!ObjectUtils.isEmpty(gitResponseDTO)) {
-			impactedFilesList = gitResponseDTO.getFiles().stream().map(f -> f.getFilename()).collect(Collectors.toSet());
+			//impactedFilesList = gitResponseDTO.getFiles().stream().map(f -> f.getFilename()).collect(Collectors.toSet());
+			for(File file:gitResponseDTO.getFiles()) {
+				impactedFilesList.add(file.getFilename());
+			}
 		}
 		
 		logger.info("ImpactedFilesList:" + impactedFilesList);
+		List<MappingEntity> mappingEntities = mappingRespository.findByFileNamesIn(impactedFilesList);
+		logger.info("MappingEntities:" + mappingEntities);
 		
 		return new ImpactDTO();
-	}*/
+	}
 }
