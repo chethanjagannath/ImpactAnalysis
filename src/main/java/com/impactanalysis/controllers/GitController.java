@@ -17,10 +17,11 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@RestController
 @CrossOrigin
-@RequestMapping(value = "/ImpactAnalysis")
-@Api(value="ImpactAnalysisApp", description="Impact Analysis Application")
+@RestController
+@RequestMapping(value="/ChangeAnalysis")
+@Api(value="ChangeAnalysis", description="Change Analysis Services")
+@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"), @ApiResponse(code = 401, message = "You are not authorized to view the resource"), @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"), @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
 public class GitController {
 	
 	@Autowired
@@ -29,14 +30,12 @@ public class GitController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@ApiOperation(value = "Application HealthCheck", response = String.class)
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"), @ApiResponse(code = 401, message = "You are not authorized to view the resource"), @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"), @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
 	@GetMapping("/healthCheck")
 	public String testApp() {
 		return "ImpactAnalysis Application is Up & Running";
 	}
 	
 	@ApiOperation(value = "Fetch all the commits for a day", response = GitResponseDTO.class)
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"), @ApiResponse(code = 401, message = "You are not authorized to view the resource"), @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"), @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
 	@PostMapping(value = "/getCommitDetailsByDate" , consumes = "application/json")
 	public GitResponseDTO getCommitDetailsByDate(@RequestBody GitRequestDTO gitRequestDTO) {
 		long startTime = System.currentTimeMillis();
@@ -45,9 +44,7 @@ public class GitController {
 		return gitResponseDTO;
 	}
 	
-
 	@ApiOperation(value = "Fetch commit details for a commit id", response = GitResponseDTO.class)
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"), @ApiResponse(code = 401, message = "You are not authorized to view the resource"), @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"), @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
 	@PostMapping(value = "/getCommitDetailsByCommitId", consumes = "application/json")
 	public GitResponseDTO getCommitDetailsByCommitId(@RequestBody GitRequestDTO gitRequestDTO) {
 		long startTime = System.currentTimeMillis();
@@ -57,7 +54,6 @@ public class GitController {
 	}
 	
 	@ApiOperation(value = "Fetch commit details between 2 commit ids", response = GitResponseDTO.class)
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"), @ApiResponse(code = 401, message = "You are not authorized to view the resource"), @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"), @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
 	@PostMapping(value = "/getCommitDetailsBetweenCommitIds", consumes = "application/json")
 	public GitResponseDTO getCommitDetailsBetweenCommitIds(@RequestBody GitRequestDTO gitRequestDTO) {
 		long startTime = System.currentTimeMillis();
