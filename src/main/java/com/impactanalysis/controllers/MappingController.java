@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.impactanalysis.dto.MappingRequestDTO;
 import com.impactanalysis.entities.MappingEntity;
 import com.impactanalysis.services.MappingService;
 
@@ -25,13 +26,13 @@ public class MappingController {
 	private MappingService mappingService;
 	
 	@PostMapping(value="/createAPI")
-	public MappingEntity createAPI(@RequestBody MappingEntity mappingEntity) {
-		return mappingService.createAPI(mappingEntity);
+	public MappingEntity createAPI(@RequestBody MappingRequestDTO mappingRequest) {
+		return mappingService.createAPI(mappingRequest);
 	}
 	
 	@PutMapping(value="/updateAPI")
-	public MappingEntity updateAPI(@RequestBody MappingEntity mappingEntity) {
-		return mappingService.updateAPI(mappingEntity);
+	public MappingEntity updateAPI(@RequestBody MappingRequestDTO mappingRequest) {
+		return mappingService.updateAPI(mappingRequest);
 	}
 	
 	@DeleteMapping(value="/deleteAPI/{apiId}")

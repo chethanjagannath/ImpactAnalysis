@@ -11,7 +11,7 @@ import com.impactanalysis.utilities.CommonUtility;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 @JsonInclude(Include.NON_NULL)
-public class MapResponseDTO implements Serializable{
+public class MappingResponseDTO implements Serializable{
 	
 	@Autowired
 	private CommonUtility commonUtility;
