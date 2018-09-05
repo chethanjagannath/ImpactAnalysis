@@ -1,24 +1,17 @@
 package com.impactanalysis.services;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
-import com.impactanalysis.clients.GitClient;
-import com.impactanalysis.dto.GitRequestDTO;
-import com.impactanalysis.dto.GitResponseDTO;
-import com.impactanalysis.dto.ImpactDTO;
 import com.impactanalysis.dto.MappingRequestDTO;
 import com.impactanalysis.entities.MappingEntity;
+import com.impactanalysis.enums.Operation;
 import com.impactanalysis.exceptions.EntityNotFoundException;
-import com.impactanalysis.pojo.File;
 import com.impactanalysis.processors.MappingProcessor;
 import com.impactanalysis.repositories.MappingRespository;
 
@@ -30,31 +23,34 @@ public class MappingService {
 	
 	@Autowired
 	private MappingRespository mappingRespository;
-	
-	@Autowired
-	private GitClient gitClient;
-	
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	public MappingEntity createAPI(MappingRequestDTO mappingRequest) {
-		mappingProcessor.validateRequest(mappingRequest, true);
+		mappingProcessor.validateRequest(mappingRequest, Operation.CREATE);
 		return mappingRespository.save(mappingRequest.getMappingEntity());
 	}
 
-	public MappingEntity updateAPI(MappingRequestDTO mappingRequest) {
+	public MappingEntity updateAPI(MappingRequestDTO mappingRequest, boolean isNewEntries) {
 		
-		mappingProcessor.validateRequest(mappingRequest, false);
+		mappingProcessor.validateRequest(mappingRequest, Operation.UPDATE);
 		
-		// To add additional details from input
-//		MappingEntity mappingEntityDB = mappingRespository.findById(mapRequest.getApiId()).get();
-//		mappingEntityDB.getFileNames().addAll(mappingEntity.getFileNames());
-//		mappingEntityDB.getTestSuiteNames().addAll(mappingEntity.getTestSuiteNames());
-//		mappingEntityDB.getPathParams().addAll(mappingEntity.getPathParams());
-//		mappingEntityDB.getQueryParams().addAll(mappingEntity.getQueryParams());
-//		return mappingRespository.save(mappingEntityDB);
-		
-		// To update whatever received as input
-		return mappingRespository.save(mappingRequest.getMappingEntity());
+		if(isNewEntries) {
+			// To add additional details from input (Files & TestSuites)
+			if(!ObjectUtils.isEmpty(mappingRequest) && !ObjectUtils.isEmpty(mappingRequest.getMappingEntity()) && !ObjectUtils.isEmpty(mappingRequest.getMappingEntity().getApiId())) {
+				MappingEntity mappingEntityDB = getAPIById(mappingRequest.getMappingEntity().getApiId());
+				// To add additional file names
+				if(!ObjectUtils.isEmpty(mappingRequest.getMappingEntity().getFileNames()))
+					mappingEntityDB.getFileNames().addAll(mappingRequest.getMappingEntity().getFileNames());
+				// To add additional test suites names
+				if(!ObjectUtils.isEmpty(mappingRequest.getMappingEntity().getTestSuiteNames()))
+					mappingEntityDB.getTestSuiteNames().addAll(mappingRequest.getMappingEntity().getTestSuiteNames());
+				return mappingRespository.save(mappingEntityDB);
+			} else {
+				return null;
+			}
+		} else {
+			// To update whatever received as input
+			return mappingRespository.save(mappingRequest.getMappingEntity());
+		}
 	}
 
 	public void deleteAPI(Integer apiId) {
@@ -74,22 +70,5 @@ public class MappingService {
 
 	public List<MappingEntity> getAllAPI() {
 		return mappingRespository.findAll();
-	}
-
-	public ImpactDTO fetchImpactedTestSuites(GitRequestDTO gitRequestDTO) {
-		GitResponseDTO gitResponseDTO = gitClient.getCommitDetailsBetweenCommitIds(gitRequestDTO);
-		Set<String> impactedFilesList = new HashSet<>();
-		if(!ObjectUtils.isEmpty(gitResponseDTO)) {
-			//impactedFilesList = gitResponseDTO.getFiles().stream().map(f -> f.getFilename()).collect(Collectors.toSet());
-			for(File file:gitResponseDTO.getFiles()) {
-				impactedFilesList.add(file.getFilename());
-			}
-		}
-		
-		logger.info("ImpactedFilesList:" + impactedFilesList);
-		List<MappingEntity> mappingEntities = mappingRespository.findByFileNamesIn(impactedFilesList);
-		logger.info("MappingEntities:" + mappingEntities);
-		
-		return new ImpactDTO();
 	}
 }

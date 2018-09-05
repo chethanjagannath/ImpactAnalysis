@@ -20,7 +20,7 @@ import io.swagger.annotations.ApiResponses;
 @CrossOrigin
 @RestController
 @RequestMapping(value="/ChangeAnalysis")
-@Api(value="ChangeAnalysis", description="Change Analysis Services")
+@Api(value="ChangeAnalysis", description="APIs to display modified set of files by contacting GitHub repositories")
 @ApiResponses(value = { @ApiResponse(code = 200, message = "Success"), @ApiResponse(code = 401, message = "You are not authorized to view the resource"), @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"), @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
 public class GitController {
 	
@@ -29,13 +29,13 @@ public class GitController {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@ApiOperation(value = "Application HealthCheck", response = String.class)
+	@ApiOperation(value = "ChangeAnalysis APIs HealthCheck", response = String.class)
 	@GetMapping("/healthCheck")
 	public String testApp() {
-		return "ImpactAnalysis Application is Up & Running";
+		return "ChangeAnalysis APIs are fine";
 	}
 	
-	@ApiOperation(value = "Fetch all the commits for a day", response = GitResponseDTO.class)
+	@ApiOperation(value = "Displays modified set of files of a repository on a particular date", response = GitResponseDTO.class)
 	@PostMapping(value = "/getCommitDetailsByDate" , consumes = "application/json")
 	public GitResponseDTO getCommitDetailsByDate(@RequestBody GitRequestDTO gitRequestDTO) {
 		long startTime = System.currentTimeMillis();
@@ -44,7 +44,7 @@ public class GitController {
 		return gitResponseDTO;
 	}
 	
-	@ApiOperation(value = "Fetch commit details for a commit id", response = GitResponseDTO.class)
+	@ApiOperation(value = "Displays modified set of files of a repository for a commit id", response = GitResponseDTO.class)
 	@PostMapping(value = "/getCommitDetailsByCommitId", consumes = "application/json")
 	public GitResponseDTO getCommitDetailsByCommitId(@RequestBody GitRequestDTO gitRequestDTO) {
 		long startTime = System.currentTimeMillis();
@@ -53,7 +53,7 @@ public class GitController {
 		return gitResponseDTO;
 	}
 	
-	@ApiOperation(value = "Fetch commit details between 2 commit ids", response = GitResponseDTO.class)
+	@ApiOperation(value = "Displays modified set of files of a repository between 2 commit ids", response = GitResponseDTO.class)
 	@PostMapping(value = "/getCommitDetailsBetweenCommitIds", consumes = "application/json")
 	public GitResponseDTO getCommitDetailsBetweenCommitIds(@RequestBody GitRequestDTO gitRequestDTO) {
 		long startTime = System.currentTimeMillis();

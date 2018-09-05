@@ -9,6 +9,7 @@ import org.springframework.util.ObjectUtils;
 
 import com.impactanalysis.dto.MappingRequestDTO;
 import com.impactanalysis.entities.MappingEntity;
+import com.impactanalysis.enums.Operation;
 import com.impactanalysis.exceptions.ValidationException;
 import com.impactanalysis.pojo.Requestor;
 import com.impactanalysis.repositories.MappingRespository;
@@ -19,7 +20,7 @@ public class MappingProcessor {
 	@Autowired
 	private MappingRespository mappingRespository;
 
-	public void validateRequest(MappingRequestDTO mappingRequest, boolean isCreateRequest) {
+	public void validateRequest(MappingRequestDTO mappingRequest, Operation operation) {
 
 		if (ObjectUtils.isEmpty(mappingRequest)) {
 			throw new ValidationException("Request is Empty");
@@ -45,17 +46,17 @@ public class MappingProcessor {
 				MappingEntity mappingEntity = mappingRequest.getMappingEntity();
 
 				// API Id should NOT be passed in CreateAPI request
-				if (isCreateRequest && !ObjectUtils.isEmpty(mappingEntity.getApiId())) {
+				if (Operation.CREATE==operation && !ObjectUtils.isEmpty(mappingEntity.getApiId())) {
 					throw new ValidationException("API Id should NOT be passed in CreateAPI request");
 				}
 
 				// API Id is mandatory for UpdateAPI request
-				if (!isCreateRequest && ObjectUtils.isEmpty(mappingEntity.getApiId())) {
+				if (Operation.UPDATE==operation && ObjectUtils.isEmpty(mappingEntity.getApiId())) {
 					throw new ValidationException("API Id should be passed in UpdateAPI request");
 				}
 
 				// For UpdateAPI, Throw ValidationException if the API is not present in DB
-				if (!isCreateRequest && ObjectUtils.isEmpty(mappingRespository.findById(mappingEntity.getApiId()))) {
+				if (Operation.UPDATE==operation && ObjectUtils.isEmpty(mappingRespository.findById(mappingEntity.getApiId()))) {
 					throw new ValidationException("This API is NOT present in DB. Please provide valid API Id");
 				}
 
@@ -63,7 +64,7 @@ public class MappingProcessor {
 				// present in Request
 				if (StringUtils.isBlank(mappingEntity.getApiName())) {
 					throw new ValidationException("API Name cannot be blank");
-				} else if (isCreateRequest) {
+				} else if (Operation.CREATE==operation) {
 					List<MappingEntity> mappingEntities = mappingRespository.findByApiName(mappingEntity.getApiName());
 					// Check to avoid duplicate entries of APIs in DB.
 					for (MappingEntity mappingEntityFromDB : mappingEntities) {

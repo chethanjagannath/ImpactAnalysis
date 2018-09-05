@@ -13,11 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.impactanalysis.dto.GitRequestDTO;
-import com.impactanalysis.dto.GitResponseDTO;
-import com.impactanalysis.dto.ImpactDTO;
 import com.impactanalysis.dto.MappingRequestDTO;
 import com.impactanalysis.entities.MappingEntity;
 import com.impactanalysis.services.MappingService;
@@ -29,8 +27,8 @@ import io.swagger.annotations.ApiResponses;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value="/ImpactAnalysis")
-@Api(value="ImpactAnalysis", description="Impact Analysis Services")
+@RequestMapping(value="/Mappings")
+@Api(value="Mappings", description="APIs for Developers (API<<-->>Files Mappings) & QA (API<<-->>Test Suites Mappings)")
 @ApiResponses(value = { @ApiResponse(code = 200, message = "Success"), @ApiResponse(code = 401, message = "You are not authorized to view the resource"), @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"), @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
 public class MappingController {
 	
@@ -39,16 +37,13 @@ public class MappingController {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	@ApiOperation(value = "Fetch TestSuite names for the files changed between 2 Commit Ids", response = ImpactDTO.class)
-	@PostMapping(value = "/fetchImpactedTestSuites", consumes = "application/json")
-	public ImpactDTO fetchImpactedTestSuites(@RequestBody GitRequestDTO gitRequestDTO) {
-		long startTime = System.currentTimeMillis();
-		ImpactDTO impactDTO = mappingService.fetchImpactedTestSuites(gitRequestDTO);
-		logger.info(String.format("API::fetchImpactedTestSuites Request=%s, Response=%s, TimeTaken=%s Milliseconds", gitRequestDTO, impactDTO, System.currentTimeMillis()-startTime));
-		return impactDTO;
+	@ApiOperation(value = "Mapping APIs HealthCheck", response = String.class)
+	@GetMapping("/healthCheck")
+	public String testApp() {
+		return "Mapping APIs are fine";
 	}
 	
-	@ApiOperation(value = "Add API details to DB", response = MappingEntity.class)
+	@ApiOperation(value = "Add API details to DB (API<<-->>Files Mappings & API<<-->>Test Suites Mappings)", response = MappingEntity.class)
 	@PostMapping(value="/createAPI")
 	public MappingEntity createAPI(@RequestBody MappingRequestDTO mappingRequest) {
 		long startTime = System.currentTimeMillis();
@@ -57,11 +52,11 @@ public class MappingController {
 		return mappingEntity;
 	}
 	
-	@ApiOperation(value = "Update API details to DB", response = MappingEntity.class)
+	@ApiOperation(value = "Update API details to DB (API<<-->>Files Mappings & API<<-->>Test Suites Mappings)", response = MappingEntity.class)
 	@PutMapping(value="/updateAPI")
-	public MappingEntity updateAPI(@RequestBody MappingRequestDTO mappingRequest) {
+	public MappingEntity updateAPI(@RequestBody MappingRequestDTO mappingRequest, @RequestParam("newEntries") boolean isNewEntries) {
 		long startTime = System.currentTimeMillis();
-		MappingEntity mappingEntity =  mappingService.updateAPI(mappingRequest);
+		MappingEntity mappingEntity =  mappingService.updateAPI(mappingRequest,isNewEntries);
 		logger.info(String.format("API::updateAPI Request=%s, Response=%s, TimeTaken=%s Milliseconds", mappingRequest, mappingEntity, System.currentTimeMillis()-startTime));
 		return mappingEntity;
 	}
@@ -74,7 +69,7 @@ public class MappingController {
 		logger.info(String.format("API::deleteAPI apiId=%s, TimeTaken=%s Milliseconds", apiId, System.currentTimeMillis()-startTime));
 	}
 	
-	@ApiOperation(value = "Fetch API details from DB by passing Api Id", response = MappingEntity.class)
+	@ApiOperation(value = "Get API details from DB by passing Api Id", response = MappingEntity.class)
 	@GetMapping(value="/getAPIById/{apiId}")
 	public MappingEntity getAPIById(@PathVariable("apiId") Integer apiId) {
 		long startTime = System.currentTimeMillis();
@@ -83,7 +78,7 @@ public class MappingController {
 		return mappingEntity;
 	}
 	
-	@ApiOperation(value = "Fetch API details from DB by passing Api Name", response = List.class)
+	@ApiOperation(value = "Get API details from DB by passing Api Name", response = List.class)
 	@GetMapping(value="/getAPIByName/{apiName}")
 	public List<MappingEntity> getAPIByName(@PathVariable("apiName") String apiName) {
 		long startTime = System.currentTimeMillis();
@@ -92,7 +87,7 @@ public class MappingController {
 		return mappingEntities;
 	}
 	
-	@ApiOperation(value = "Fetch all API details from DB", response = List.class)
+	@ApiOperation(value = "Get all API details from DB (API<<-->>Files Mappings & API<<-->>Test Suites Mappings)", response = List.class)
 	@GetMapping(value="/getAllAPI")
 	public List<MappingEntity> getAllAPI() {
 		long startTime = System.currentTimeMillis();
