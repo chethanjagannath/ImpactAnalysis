@@ -45,7 +45,6 @@ public class MappingEntity implements Serializable {
 	private Integer apiId;
 
 	@Lob
-	@NotNull
 	@Column(name = "apiName")
 	private String apiName;
 
