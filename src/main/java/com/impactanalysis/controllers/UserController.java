@@ -35,11 +35,25 @@ public class UserController {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
+	@ApiOperation(value = "User APIs HealthCheck", response = String.class)
+	@GetMapping("/healthCheck")
+	public String testApp() {
+		return "User APIs are fine";
+	}
 	@ApiOperation(value = "Add user to DB", response = UserEntity.class)
 	@PostMapping(value="/createUser")
-	public UserEntity createAPI(@RequestBody UserEntity userRequest) {
+	public UserEntity createUser(@RequestBody UserEntity userRequest) {
 		long startTime = System.currentTimeMillis();
 		UserEntity userResponse =  userService.createUser(userRequest);
+		logger.info(String.format("API::createUser Request=%s, Response=%s, TimeTaken=%s Milliseconds", userRequest, userResponse, System.currentTimeMillis()-startTime));
+		return userResponse;
+	}
+	
+	@ApiOperation(value = "Add multiple users to DB", response = List.class)
+	@PostMapping(value="/createMultipleUsers")
+	public List<UserEntity> createMultipleUsers(@RequestBody List<UserEntity> userRequest) {
+		long startTime = System.currentTimeMillis();
+		List<UserEntity> userResponse =  userService.createMultipleUsers(userRequest);
 		logger.info(String.format("API::createUser Request=%s, Response=%s, TimeTaken=%s Milliseconds", userRequest, userResponse, System.currentTimeMillis()-startTime));
 		return userResponse;
 	}
@@ -48,25 +62,25 @@ public class UserController {
 	@PutMapping(value="/updateUser")
 	public UserEntity updateAPI(@RequestBody UserEntity userRequest) {
 		long startTime = System.currentTimeMillis();
-		UserEntity userResponse =  userService.updateAPI(userRequest);
+		UserEntity userResponse =  userService.updateUser(userRequest);
 		logger.info(String.format("API::updateUser Request=%s, Response=%s, TimeTaken=%s Milliseconds", userRequest, userResponse, System.currentTimeMillis()-startTime));
 		return userResponse;
 	}
 	
 	@ApiOperation(value = "Delete user from DB", response = Void.class)
-	@DeleteMapping(value="/deleteUser/{userEmailId}")
-	public void deleteAPI(@PathVariable("userEmailId") String userEmailId) {
+	@DeleteMapping(value="/deleteUser/{userId}")
+	public void deleteAPI(@PathVariable("userId") Long userId) {
 		long startTime = System.currentTimeMillis();
-		userService.deleteAPI(userEmailId);
-		logger.info(String.format("API::deleteUser userEmailId=%s, TimeTaken=%s Milliseconds", userEmailId, System.currentTimeMillis()-startTime));
+		userService.deleteUser(userId);
+		logger.info(String.format("API::deleteUser userId=%s, TimeTaken=%s Milliseconds", userId, System.currentTimeMillis()-startTime));
 	}
 	
-	@ApiOperation(value = "Get User from DB by passing User Email Id", response = UserEntity.class)
-	@GetMapping(value="/getUserByEmailId/{userEmailId}")
-	public UserEntity getUserByEmailId(@PathVariable("userEmailId") String userEmailId) {
+	@ApiOperation(value = "Get User from DB by passing User Id", response = UserEntity.class)
+	@GetMapping(value="/getUserById/{userId}")
+	public UserEntity getUserById(@PathVariable("userId") Long userId) {
 		long startTime = System.currentTimeMillis();
-		UserEntity userEntity =  userService.getUserByEmailId(userEmailId);
-		logger.info(String.format("API::getUserByEmailId emailId=%s, Response=%s, TimeTaken=%s Milliseconds", userEmailId, userEntity, System.currentTimeMillis()-startTime));
+		UserEntity userEntity =  userService.getUserById(userId);
+		logger.info(String.format("API::getUserByEmailId userId=%s, Response=%s, TimeTaken=%s Milliseconds", userId, userEntity, System.currentTimeMillis()-startTime));
 		return userEntity;
 	}
 	

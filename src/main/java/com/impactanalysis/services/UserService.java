@@ -6,28 +6,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.impactanalysis.entities.UserEntity;
+import com.impactanalysis.enums.Operation;
+import com.impactanalysis.processors.UserProcessor;
 import com.impactanalysis.repositories.UserRepository;
 
 @Service
 public class UserService {
 	
 	@Autowired
+	private UserProcessor userProcessor;
+	
+	@Autowired
 	private UserRepository userRepository;
 
 	public UserEntity createUser(UserEntity userRequest) {
+		userProcessor.validateRequest(userRequest, Operation.CREATE);
 		return userRepository.save(userRequest);
 	}
 
-	public UserEntity updateAPI(UserEntity userRequest) {
+	public UserEntity updateUser(UserEntity userRequest) {
+		userProcessor.validateRequest(userRequest, Operation.UPDATE);
 		return userRepository.save(userRequest);
 	}
 
-	public UserEntity getUserByEmailId(String userEmailId) {
-		return userRepository.findById(userEmailId).get();
+	public void deleteUser(Long userId) {
+		userRepository.deleteById(userId);
 	}
-
-	public void deleteAPI(String userEmailId) {
-		userRepository.deleteById(userEmailId);
+	
+	public UserEntity getUserById(Long userId) {
+		return userRepository.findById(userId).get();
 	}
 
 	public List<UserEntity> getUsersByName(String userName) {
@@ -38,4 +45,7 @@ public class UserService {
 		return userRepository.findAll();
 	}
 
+	public List<UserEntity> createMultipleUsers(List<UserEntity> userRequest) {
+		return userRepository.saveAll(userRequest);
+	}
 }

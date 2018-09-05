@@ -4,8 +4,11 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -28,9 +31,14 @@ public class UserEntity implements Serializable {
 	@Autowired
 	@Transient
 	private CommonUtility commonUtility;
-
+	
 	@Id
-	@Column(name = "userEmailId", length=100)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+	@SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
+	@Column(name = "userId")
+	private Long userId;
+
+	@Column(name = "userEmailId")
 	private String userEmailId;
 
 	@Column(name = "userName")
@@ -38,6 +46,14 @@ public class UserEntity implements Serializable {
 
 	public UserEntity() {
 		super();
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 	public String getUserEmailId() {

@@ -12,7 +12,7 @@ import com.impactanalysis.entities.UserEntity;
 
 @Repository
 @Transactional(isolation=Isolation.READ_COMMITTED, propagation=Propagation.REQUIRED)
-public interface UserRepository extends JpaRepository<UserEntity,String>{
+public interface UserRepository extends JpaRepository<UserEntity, Long>{
 		
 	@Transactional(readOnly = true, timeout=100000)
 	List<UserEntity> findByUserName(String userName);

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.impactanalysis.dto.MappingRequestDTO;
@@ -53,9 +54,9 @@ public class MappingController {
 	
 	@ApiOperation(value = "Update API details to DB (API<<-->>Files Mappings & API<<-->>Test Suites Mappings)", response = MappingEntity.class)
 	@PutMapping(value="/updateAPI")
-	public MappingEntity updateAPI(@RequestBody MappingRequestDTO mappingRequest) {
+	public MappingEntity updateAPI(@RequestBody MappingRequestDTO mappingRequest, @RequestParam("newEntries") boolean isNewEntries) {
 		long startTime = System.currentTimeMillis();
-		MappingEntity mappingEntity =  mappingService.updateAPI(mappingRequest);
+		MappingEntity mappingEntity =  mappingService.updateAPI(mappingRequest,isNewEntries);
 		logger.info(String.format("API::updateAPI Request=%s, Response=%s, TimeTaken=%s Milliseconds", mappingRequest, mappingEntity, System.currentTimeMillis()-startTime));
 		return mappingEntity;
 	}
