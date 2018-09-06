@@ -54,9 +54,9 @@ public class MappingController {
 	
 	@ApiOperation(value = "Update API details to DB (API<<-->>Files Mappings & API<<-->>Test Suites Mappings)", response = MappingEntity.class)
 	@PutMapping(value="/updateAPI")
-	public MappingEntity updateAPI(@RequestBody MappingRequestDTO mappingRequest, @RequestParam("newEntries") boolean isNewEntries) {
+	public MappingEntity updateAPI(@RequestBody MappingRequestDTO mappingRequest, @RequestParam("fullUpdate") boolean fullUpdate) {
 		long startTime = System.currentTimeMillis();
-		MappingEntity mappingEntity =  mappingService.updateAPI(mappingRequest,isNewEntries);
+		MappingEntity mappingEntity =  mappingService.updateAPI(mappingRequest,fullUpdate);
 		logger.info(String.format("API::updateAPI Request=%s, Response=%s, TimeTaken=%s Milliseconds", mappingRequest, mappingEntity, System.currentTimeMillis()-startTime));
 		return mappingEntity;
 	}
