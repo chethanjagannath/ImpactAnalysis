@@ -29,11 +29,11 @@ public class MappingService {
 		return mappingRespository.save(mappingRequest.getMappingEntity());
 	}
 
-	public MappingEntity updateAPI(MappingRequestDTO mappingRequest, boolean isNewEntries) {
+	public MappingEntity updateAPI(MappingRequestDTO mappingRequest, boolean fullUpdate) {
 		
 		mappingProcessor.validateRequest(mappingRequest, Operation.UPDATE);
 		
-		if(isNewEntries) {
+		if(!fullUpdate) {
 			// To add additional details from input (Files & TestSuites)
 			if(!ObjectUtils.isEmpty(mappingRequest) && !ObjectUtils.isEmpty(mappingRequest.getMappingEntity()) && !ObjectUtils.isEmpty(mappingRequest.getMappingEntity().getApiId())) {
 				MappingEntity mappingEntityDB = getAPIById(mappingRequest.getMappingEntity().getApiId());
