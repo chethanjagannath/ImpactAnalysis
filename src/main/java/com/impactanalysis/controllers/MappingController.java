@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.impactanalysis.dto.MappingRequestDTO;
 import com.impactanalysis.entities.MappingEntity;
+import com.impactanalysis.pojo.Requestor;
 import com.impactanalysis.services.MappingService;
 
 import io.swagger.annotations.Api;
@@ -63,9 +64,9 @@ public class MappingController {
 	
 	@ApiOperation(value = "Delete API details from DB by passing ApiId", response = Void.class)
 	@DeleteMapping(value="/deleteAPI/{apiId}")
-	public void deleteAPI(@RequestBody MappingRequestDTO mappingRequest, @PathVariable("apiId") Integer apiId) {
+	public void deleteAPI(@RequestBody Requestor requestor, @PathVariable("apiId") Integer apiId) {
 		long startTime = System.currentTimeMillis();
-		mappingService.deleteAPI(mappingRequest,apiId);
+		mappingService.deleteAPI(requestor,apiId);
 		logger.info(String.format("API::deleteAPI apiId=%s, TimeTaken=%s Milliseconds", apiId, System.currentTimeMillis()-startTime));
 	}
 	

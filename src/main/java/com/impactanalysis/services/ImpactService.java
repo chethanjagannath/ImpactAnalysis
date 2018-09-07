@@ -19,6 +19,7 @@ import com.impactanalysis.dto.ImpactDTO;
 import com.impactanalysis.entities.MappingEntity;
 import com.impactanalysis.pojo.File;
 import com.impactanalysis.repositories.MappingRespository;
+import com.impactanalysis.utilities.CommonUtility;
 
 @Service
 public class ImpactService {
@@ -28,6 +29,9 @@ public class ImpactService {
 	
 	@Autowired
 	private GitClient gitClient;
+	
+	@Autowired
+	private CommonUtility commonUtility;
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
