@@ -1,12 +1,16 @@
 package com.impactanalysis.utilities;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
+
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.impactanalysis.exceptions.ValidationException;
+import com.impactanalysis.pojo.Requestor;
 
 @Component
 public class CommonUtility {
@@ -23,6 +27,21 @@ public class CommonUtility {
         	logger.error(String.format("Exception occured while converting object to json : %s ", jsonString));
         }
         return jsonString;
+	}
+	
+	public void validateRequestor(final Requestor requestor) {
+		if (ObjectUtils.isEmpty(requestor)) {
+			throw new ValidationException("Requestor details is Empty");
+		} else {
+			if (StringUtils.isBlank(requestor.getName())) {
+				throw new ValidationException(
+						"Could you please provide your name under Requestor details, for Auditing");
+			}
+			if (StringUtils.isBlank(requestor.getEmailId())) {
+				throw new ValidationException(
+						"Could you please provide your emailId under Requestor details, for Auditing");
+			}
+		}
 	}
 	
 //	private static List<String> strConvertClsToJava(List<String> inputList) {

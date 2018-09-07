@@ -13,12 +13,16 @@ import com.impactanalysis.enums.Operation;
 import com.impactanalysis.exceptions.ValidationException;
 import com.impactanalysis.pojo.Requestor;
 import com.impactanalysis.repositories.MappingRespository;
+import com.impactanalysis.utilities.CommonUtility;
 
 @Component
 public class MappingProcessor {
 
 	@Autowired
 	private MappingRespository mappingRespository;
+	
+	@Autowired
+	private CommonUtility commonUtility;
 
 	public void validateRequest(MappingRequestDTO mappingRequest, Operation operation) {
 
@@ -26,20 +30,7 @@ public class MappingProcessor {
 			throw new ValidationException("Request is Empty");
 		} else {
 			// For CreateAPI, UpdateAPI & DeleteAPI - Requestor details will be used for Auditing. So, Requestor Name and EmailId is mandatory.
-			if (ObjectUtils.isEmpty(mappingRequest.getRequestor())) {
-				throw new ValidationException("Requestor details is Empty");
-			} else {
-				Requestor requestor = mappingRequest.getRequestor();
-
-				if (StringUtils.isBlank(requestor.getName())) {
-					throw new ValidationException(
-							"Could you please provide your name under Requestor details, for Auditing");
-				}
-				if (StringUtils.isBlank(requestor.getEmailId())) {
-					throw new ValidationException(
-							"Could you please provide your emailId under Requestor details, for Auditing");
-				}
-			}
+			commonUtility.validateRequestor(mappingRequest.getRequestor());
 
 			// Validation for MappingEntity Details
 			if (!ObjectUtils.isEmpty(mappingRequest.getMappingEntity())) {

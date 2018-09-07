@@ -12,8 +12,10 @@ import com.impactanalysis.dto.MappingRequestDTO;
 import com.impactanalysis.entities.MappingEntity;
 import com.impactanalysis.enums.Operation;
 import com.impactanalysis.exceptions.EntityNotFoundException;
+import com.impactanalysis.pojo.Requestor;
 import com.impactanalysis.processors.MappingProcessor;
 import com.impactanalysis.repositories.MappingRespository;
+import com.impactanalysis.utilities.CommonUtility;
 
 @Service
 public class MappingService {
@@ -23,6 +25,9 @@ public class MappingService {
 	
 	@Autowired
 	private MappingRespository mappingRespository;
+	
+	@Autowired
+	private CommonUtility commonUtility;
 
 	public List<MappingEntity> createAPI(List<MappingRequestDTO> mappingRequest) {
 		List<MappingEntity> mappingEntityList = new ArrayList<>();
@@ -35,9 +40,7 @@ public class MappingService {
 	}
 
 	public MappingEntity updateAPI(MappingRequestDTO mappingRequest, boolean fullUpdate) {
-		
 		mappingProcessor.validateRequest(mappingRequest, Operation.UPDATE);
-		
 		if(!fullUpdate) {
 			// To add additional details from input (Files & TestSuites)
 			if(!ObjectUtils.isEmpty(mappingRequest) && !ObjectUtils.isEmpty(mappingRequest.getMappingEntity()) && !ObjectUtils.isEmpty(mappingRequest.getMappingEntity().getApiId())) {
@@ -58,8 +61,8 @@ public class MappingService {
 		}
 	}
 
-	public void deleteAPI(MappingRequestDTO mappingRequest,Integer apiId) {
-		mappingProcessor.validateRequest(mappingRequest, Operation.DELETE);
+	public void deleteAPI(Requestor requestor,Integer apiId) {
+		commonUtility.validateRequestor(requestor);
 		mappingRespository.deleteById(apiId);
 	}
 
