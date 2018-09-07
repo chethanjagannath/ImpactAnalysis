@@ -18,10 +18,12 @@ public class UserService {
 	
 	@Autowired
 	private UserRepository userRepository;
-
-	public UserEntity createUser(UserEntity userRequest) {
-		userProcessor.validateRequest(userRequest, Operation.CREATE);
-		return userRepository.save(userRequest);
+	
+	public List<UserEntity> createUser(List<UserEntity> userRequest) {
+		for(UserEntity userEntity:userRequest) {
+			userProcessor.validateRequest(userEntity, Operation.CREATE);
+		}
+		return userRepository.saveAll(userRequest);
 	}
 
 	public UserEntity updateUser(UserEntity userRequest) {
@@ -43,9 +45,5 @@ public class UserService {
 
 	public List<UserEntity> getAllUsers() {
 		return userRepository.findAll();
-	}
-
-	public List<UserEntity> createMultipleUsers(List<UserEntity> userRequest) {
-		return userRepository.saveAll(userRequest);
 	}
 }

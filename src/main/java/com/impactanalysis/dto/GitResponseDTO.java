@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.impactanalysis.pojo.File;
 import com.impactanalysis.pojo.Item;
 import com.impactanalysis.pojo.Stat;
@@ -33,10 +34,12 @@ public class GitResponseDTO implements Serializable{
 	public GitResponseDTO() {	
 	}
 
+	@JsonProperty("commitId")
 	public String getSha() {
 		return sha;
 	}
 
+	@JsonProperty("commitId")
 	public void setSha(String sha) {
 		this.sha = sha;
 	}

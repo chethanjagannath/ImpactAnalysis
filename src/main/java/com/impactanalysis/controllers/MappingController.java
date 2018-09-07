@@ -43,13 +43,13 @@ public class MappingController {
 		return "Mapping APIs are fine";
 	}
 	
-	@ApiOperation(value = "Add API details to DB (API<<-->>Files Mappings & API<<-->>Test Suites Mappings)", response = MappingEntity.class)
+	@ApiOperation(value = "Add multiple API details to DB (API<<-->>Files Mappings & API<<-->>Test Suites Mappings)", response = List.class)
 	@PostMapping(value="/createAPI")
-	public MappingEntity createAPI(@RequestBody MappingRequestDTO mappingRequest) {
+	public List<MappingEntity> createAPI(@RequestBody List<MappingRequestDTO> mappingRequest) {
 		long startTime = System.currentTimeMillis();
-		MappingEntity mappingEntity =  mappingService.createAPI(mappingRequest);
-		logger.info(String.format("API::createAPI Request=%s, Response=%s, TimeTaken=%s Milliseconds", mappingRequest, mappingEntity, System.currentTimeMillis()-startTime));
-		return mappingEntity;
+		List<MappingEntity> mappingEntities =  mappingService.createAPI(mappingRequest);
+		logger.info(String.format("API::createMultipleAPI Request=%s, Response=%s, TimeTaken=%s Milliseconds", mappingRequest, mappingEntities, System.currentTimeMillis()-startTime));
+		return mappingEntities;
 	}
 	
 	@ApiOperation(value = "Update API details to DB (API<<-->>Files Mappings & API<<-->>Test Suites Mappings)", response = MappingEntity.class)
@@ -63,9 +63,9 @@ public class MappingController {
 	
 	@ApiOperation(value = "Delete API details from DB by passing ApiId", response = Void.class)
 	@DeleteMapping(value="/deleteAPI/{apiId}")
-	public void deleteAPI(@PathVariable("apiId") Integer apiId) {
+	public void deleteAPI(@RequestBody MappingRequestDTO mappingRequest, @PathVariable("apiId") Integer apiId) {
 		long startTime = System.currentTimeMillis();
-		mappingService.deleteAPI(apiId);
+		mappingService.deleteAPI(mappingRequest,apiId);
 		logger.info(String.format("API::deleteAPI apiId=%s, TimeTaken=%s Milliseconds", apiId, System.currentTimeMillis()-startTime));
 	}
 	

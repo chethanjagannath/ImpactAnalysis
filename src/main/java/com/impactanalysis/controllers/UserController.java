@@ -40,20 +40,12 @@ public class UserController {
 	public String testApp() {
 		return "User APIs are fine";
 	}
-	@ApiOperation(value = "Add user to DB", response = UserEntity.class)
-	@PostMapping(value="/createUser")
-	public UserEntity createUser(@RequestBody UserEntity userRequest) {
-		long startTime = System.currentTimeMillis();
-		UserEntity userResponse =  userService.createUser(userRequest);
-		logger.info(String.format("API::createUser Request=%s, Response=%s, TimeTaken=%s Milliseconds", userRequest, userResponse, System.currentTimeMillis()-startTime));
-		return userResponse;
-	}
 	
 	@ApiOperation(value = "Add multiple users to DB", response = List.class)
-	@PostMapping(value="/createMultipleUsers")
-	public List<UserEntity> createMultipleUsers(@RequestBody List<UserEntity> userRequest) {
+	@PostMapping(value="/createUser")
+	public List<UserEntity> createUser(@RequestBody List<UserEntity> userRequest) {
 		long startTime = System.currentTimeMillis();
-		List<UserEntity> userResponse =  userService.createMultipleUsers(userRequest);
+		List<UserEntity> userResponse =  userService.createUser(userRequest);
 		logger.info(String.format("API::createUser Request=%s, Response=%s, TimeTaken=%s Milliseconds", userRequest, userResponse, System.currentTimeMillis()-startTime));
 		return userResponse;
 	}
