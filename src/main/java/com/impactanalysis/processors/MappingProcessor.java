@@ -25,7 +25,7 @@ public class MappingProcessor {
 		if (ObjectUtils.isEmpty(mappingRequest)) {
 			throw new ValidationException("Request is Empty");
 		} else {
-			// For CreateAPI and UpdateAPI - Requestor details will be used for Auditing. So, Requestor Name and EmailId is mandatory.
+			// For CreateAPI, UpdateAPI & DeleteAPI - Requestor details will be used for Auditing. So, Requestor Name and EmailId is mandatory.
 			if (ObjectUtils.isEmpty(mappingRequest.getRequestor())) {
 				throw new ValidationException("Requestor details is Empty");
 			} else {

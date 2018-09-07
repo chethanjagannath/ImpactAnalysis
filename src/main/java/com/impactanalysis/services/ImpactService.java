@@ -1,7 +1,9 @@
 package com.impactanalysis.services;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -43,6 +45,16 @@ public class ImpactService {
 		List<MappingEntity> mappingEntities = mappingRespository.findByFileNamesIn(impactedFilesList);
 		logger.info("MappingEntities:" + mappingEntities);
 		
-		return new ImpactDTO();
+		Set<String> testSuiteList = new HashSet<>();
+		Map<String, Set<String>> apiTestSuitesMappingList = new HashMap<>();
+		for(MappingEntity mappingEntity:mappingEntities) {
+			apiTestSuitesMappingList.put(mappingEntity.getApiId() + "-" + mappingEntity.getApiName(), mappingEntity.getTestSuiteNames());
+			testSuiteList.addAll(mappingEntity.getTestSuiteNames());
+		}
+		ImpactDTO impactDTO = new ImpactDTO();
+		impactDTO.setTestSuiteList(testSuiteList);
+		impactDTO.setApiTestSuitesMappingList(apiTestSuitesMappingList);
+		
+		return impactDTO;
 	}
 }

@@ -23,6 +23,13 @@ public class UserService {
 		userProcessor.validateRequest(userRequest, Operation.CREATE);
 		return userRepository.save(userRequest);
 	}
+	
+	public List<UserEntity> createMultipleUsers(List<UserEntity> userRequest) {
+		for(UserEntity userEntity:userRequest) {
+			userProcessor.validateRequest(userEntity, Operation.CREATE);
+		}
+		return userRepository.saveAll(userRequest);
+	}
 
 	public UserEntity updateUser(UserEntity userRequest) {
 		userProcessor.validateRequest(userRequest, Operation.UPDATE);
@@ -43,9 +50,5 @@ public class UserService {
 
 	public List<UserEntity> getAllUsers() {
 		return userRepository.findAll();
-	}
-
-	public List<UserEntity> createMultipleUsers(List<UserEntity> userRequest) {
-		return userRepository.saveAll(userRequest);
 	}
 }

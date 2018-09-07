@@ -1,9 +1,9 @@
 package com.impactanalysis.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -27,6 +27,16 @@ public class MappingService {
 	public MappingEntity createAPI(MappingRequestDTO mappingRequest) {
 		mappingProcessor.validateRequest(mappingRequest, Operation.CREATE);
 		return mappingRespository.save(mappingRequest.getMappingEntity());
+	}
+	
+	public List<MappingEntity> createMultipleAPI(List<MappingRequestDTO> mappingRequest) {
+		List<MappingEntity> mappingEntityList = new ArrayList<>();
+		for(MappingRequestDTO mappingRequestDTO:mappingRequest) {
+			mappingProcessor.validateRequest(mappingRequestDTO, Operation.CREATE);
+			mappingEntityList.add(mappingRequestDTO.getMappingEntity());
+		}
+		List<MappingEntity> mpList = mappingRespository.saveAll(mappingEntityList);
+		return mpList;
 	}
 
 	public MappingEntity updateAPI(MappingRequestDTO mappingRequest, boolean fullUpdate) {
@@ -53,7 +63,8 @@ public class MappingService {
 		}
 	}
 
-	public void deleteAPI(Integer apiId) {
+	public void deleteAPI(MappingRequestDTO mappingRequest,Integer apiId) {
+		mappingProcessor.validateRequest(mappingRequest, Operation.DELETE);
 		mappingRespository.deleteById(apiId);
 	}
 
