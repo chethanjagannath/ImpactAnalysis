@@ -24,12 +24,7 @@ public class MappingService {
 	@Autowired
 	private MappingRespository mappingRespository;
 
-	public MappingEntity createAPI(MappingRequestDTO mappingRequest) {
-		mappingProcessor.validateRequest(mappingRequest, Operation.CREATE);
-		return mappingRespository.save(mappingRequest.getMappingEntity());
-	}
-	
-	public List<MappingEntity> createMultipleAPI(List<MappingRequestDTO> mappingRequest) {
+	public List<MappingEntity> createAPI(List<MappingRequestDTO> mappingRequest) {
 		List<MappingEntity> mappingEntityList = new ArrayList<>();
 		for(MappingRequestDTO mappingRequestDTO:mappingRequest) {
 			mappingProcessor.validateRequest(mappingRequestDTO, Operation.CREATE);

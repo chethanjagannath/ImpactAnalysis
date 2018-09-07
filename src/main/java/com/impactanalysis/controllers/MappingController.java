@@ -43,20 +43,11 @@ public class MappingController {
 		return "Mapping APIs are fine";
 	}
 	
-	@ApiOperation(value = "Add API details to DB (API<<-->>Files Mappings & API<<-->>Test Suites Mappings)", response = MappingEntity.class)
-	@PostMapping(value="/createAPI")
-	public MappingEntity createAPI(@RequestBody MappingRequestDTO mappingRequest) {
-		long startTime = System.currentTimeMillis();
-		MappingEntity mappingEntity =  mappingService.createAPI(mappingRequest);
-		logger.info(String.format("API::createAPI Request=%s, Response=%s, TimeTaken=%s Milliseconds", mappingRequest, mappingEntity, System.currentTimeMillis()-startTime));
-		return mappingEntity;
-	}
-	
 	@ApiOperation(value = "Add multiple API details to DB (API<<-->>Files Mappings & API<<-->>Test Suites Mappings)", response = List.class)
-	@PostMapping(value="/createMultipleAPI")
-	public List<MappingEntity> createMultipleAPI(@RequestBody List<MappingRequestDTO> mappingRequest) {
+	@PostMapping(value="/createAPI")
+	public List<MappingEntity> createAPI(@RequestBody List<MappingRequestDTO> mappingRequest) {
 		long startTime = System.currentTimeMillis();
-		List<MappingEntity> mappingEntities =  mappingService.createMultipleAPI(mappingRequest);
+		List<MappingEntity> mappingEntities =  mappingService.createAPI(mappingRequest);
 		logger.info(String.format("API::createMultipleAPI Request=%s, Response=%s, TimeTaken=%s Milliseconds", mappingRequest, mappingEntities, System.currentTimeMillis()-startTime));
 		return mappingEntities;
 	}
