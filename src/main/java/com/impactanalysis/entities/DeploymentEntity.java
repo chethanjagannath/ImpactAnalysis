@@ -56,6 +56,14 @@ public class DeploymentEntity implements Serializable {
 		super();
 	}
 
+	public DeploymentEntity(String repositoryName, String repositoryOwnerId, String branchName, String commitId) {
+		super();
+		this.repositoryName = repositoryName;
+		this.repositoryOwnerId = repositoryOwnerId;
+		this.branchName = branchName;
+		this.commitId = commitId;
+	}
+
 	public Long getDeploymentId() {
 		return deploymentId;
 	}

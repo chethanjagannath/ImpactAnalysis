@@ -74,6 +74,11 @@ public class ImpactService {
 		      throw new EntityNotFoundException(String.format("Last Commit Details for repositoryName=%s, repositoryOwnerId=%s, branchName=%s is not fetched from GitHub Repository Branch", repositoryName, repositoryOwnerId, branchName));
 		
 		ImpactDTO impactDTO = fetchImpactedTestSuites(new GitRequestDTO(repositoryName, repositoryOwnerId, branchName, startCommitId, endCommitId), false);
+		// Save the recent commit details to Deployment table
+		if (!ObjectUtils.isEmpty(impactDTO) && !ObjectUtils.isEmpty(impactDTO.getTestSuiteList())) {
+			deploymentRepository.save(new DeploymentEntity(repositoryName, repositoryOwnerId, branchName, endCommitId));
+		}
+		
 		return impactDTO.getTestSuiteList();
 	}
 }
