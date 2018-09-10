@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.impactanalysis.dto.DeploymentRequestDTO;
+import com.impactanalysis.entities.AuditEntity;
 import com.impactanalysis.entities.DeploymentEntity;
 import com.impactanalysis.pojo.Requestor;
+import com.impactanalysis.repositories.AuditRepository;
 import com.impactanalysis.services.DeploymentService;
 
 import io.swagger.annotations.Api;
@@ -35,6 +37,9 @@ public class DeploymentController {
 	@Autowired
 	private DeploymentService deploymentService;
 	
+	@Autowired
+	private AuditRepository auditRepository;
+	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@ApiOperation(value = "Deployment APIs HealthCheck", response = String.class)
@@ -49,6 +54,7 @@ public class DeploymentController {
 		long startTime = System.currentTimeMillis();
 		DeploymentEntity deploymentEntity = deploymentService.createDeploymentInfo(deploymentRequestDTO);
 		logger.info(String.format("API::fetchImpactedTestSuites Request=%s, Response=%s, TimeTaken=%s Milliseconds", deploymentRequestDTO, deploymentEntity, System.currentTimeMillis()-startTime));
+		auditRepository.save(new AuditEntity("createDeploymentInfo", deploymentRequestDTO.toString(), deploymentEntity.toString()));
 		return deploymentEntity;
 	}
 	
@@ -76,5 +82,6 @@ public class DeploymentController {
 		long startTime = System.currentTimeMillis();
 		deploymentService.deleteDeploymentInfoById(requestor, deploymentId);
 		logger.info(String.format("API::fetchImpactedTestSuites deploymentId=%s, TimeTaken=%s Milliseconds", deploymentId, System.currentTimeMillis()-startTime));
+		auditRepository.save(new AuditEntity("deleteDeploymentInfoById", "DeploymentId=" + deploymentId + "::Requestor=" + requestor, null));
 	}
 }
