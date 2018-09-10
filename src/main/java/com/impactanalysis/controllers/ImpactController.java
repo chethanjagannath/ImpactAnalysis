@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.impactanalysis.dto.GitRequestDTO;
@@ -40,9 +41,9 @@ public class ImpactController {
 	
 	@ApiOperation(value = "Display TestSuites names for the modified files between 2 Commit Ids", response = ImpactDTO.class)
 	@PostMapping(value = "/fetchImpactedTestSuites", consumes = "application/json")
-	public ImpactDTO fetchImpactedTestSuites(@RequestBody GitRequestDTO gitRequestDTO) {
+	public ImpactDTO fetchImpactedTestSuites(@RequestBody GitRequestDTO gitRequestDTO, @RequestParam("fullInfo") boolean fullInfo) {
 		long startTime = System.currentTimeMillis();
-		ImpactDTO impactDTO = impactService.fetchImpactedTestSuites(gitRequestDTO);
+		ImpactDTO impactDTO = impactService.fetchImpactedTestSuites(gitRequestDTO, fullInfo);
 		logger.info(String.format("API::fetchImpactedTestSuites Request=%s, Response=%s, TimeTaken=%s Milliseconds", gitRequestDTO, impactDTO, System.currentTimeMillis()-startTime));
 		return impactDTO;
 	}
