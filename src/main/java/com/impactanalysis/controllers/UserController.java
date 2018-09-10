@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.impactanalysis.entities.AuditEntity;
 import com.impactanalysis.entities.UserEntity;
+import com.impactanalysis.repositories.AuditRepository;
 import com.impactanalysis.services.UserService;
 
 import io.swagger.annotations.Api;
@@ -33,6 +35,9 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private AuditRepository auditRepository;
+	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@ApiOperation(value = "User APIs HealthCheck", response = String.class)
@@ -47,15 +52,17 @@ public class UserController {
 		long startTime = System.currentTimeMillis();
 		List<UserEntity> userResponse =  userService.createUser(userRequest);
 		logger.info(String.format("API::createUser Request=%s, Response=%s, TimeTaken=%s Milliseconds", userRequest, userResponse, System.currentTimeMillis()-startTime));
+		auditRepository.save(new AuditEntity("createUser", userRequest.toString(), userResponse.toString()));
 		return userResponse;
 	}
 	
 	@ApiOperation(value = "Update user to DB", response = UserEntity.class)
 	@PutMapping(value="/updateUser")
-	public UserEntity updateAPI(@RequestBody UserEntity userRequest) {
+	public UserEntity updateUser(@RequestBody UserEntity userRequest) {
 		long startTime = System.currentTimeMillis();
 		UserEntity userResponse =  userService.updateUser(userRequest);
 		logger.info(String.format("API::updateUser Request=%s, Response=%s, TimeTaken=%s Milliseconds", userRequest, userResponse, System.currentTimeMillis()-startTime));
+		auditRepository.save(new AuditEntity("updateUser", userRequest.toString(), userResponse.toString()));
 		return userResponse;
 	}
 	
@@ -65,6 +72,7 @@ public class UserController {
 		long startTime = System.currentTimeMillis();
 		userService.deleteUser(userId);
 		logger.info(String.format("API::deleteUser userId=%s, TimeTaken=%s Milliseconds", userId, System.currentTimeMillis()-startTime));
+		auditRepository.save(new AuditEntity("deleteUser", userId.toString(), null));
 	}
 	
 	@ApiOperation(value = "Get User from DB by passing User Id", response = UserEntity.class)

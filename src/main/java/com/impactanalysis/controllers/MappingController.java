@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.impactanalysis.dto.MappingRequestDTO;
+import com.impactanalysis.entities.AuditEntity;
 import com.impactanalysis.entities.MappingEntity;
 import com.impactanalysis.pojo.Requestor;
+import com.impactanalysis.repositories.AuditRepository;
 import com.impactanalysis.services.MappingService;
 
 import io.swagger.annotations.Api;
@@ -36,6 +38,9 @@ public class MappingController {
 	@Autowired
 	private MappingService mappingService;
 	
+	@Autowired
+	private AuditRepository auditRepository;
+	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@ApiOperation(value = "Mapping APIs HealthCheck", response = String.class)
@@ -46,20 +51,22 @@ public class MappingController {
 	
 	@ApiOperation(value = "Add multiple API details to DB (API<<-->>Files Mappings & API<<-->>Test Suites Mappings)", response = List.class)
 	@PostMapping(value="/createAPI")
-	public List<MappingEntity> createAPI(@RequestBody List<MappingRequestDTO> mappingRequest) {
+	public List<MappingEntity> createAPI(@RequestBody MappingRequestDTO mappingRequest) {
 		long startTime = System.currentTimeMillis();
 		List<MappingEntity> mappingEntities =  mappingService.createAPI(mappingRequest);
 		logger.info(String.format("API::createMultipleAPI Request=%s, Response=%s, TimeTaken=%s Milliseconds", mappingRequest, mappingEntities, System.currentTimeMillis()-startTime));
+		auditRepository.save(new AuditEntity("createAPI", mappingRequest.toString(), mappingEntities.toString()));
 		return mappingEntities;
 	}
 	
 	@ApiOperation(value = "Update API details to DB (API<<-->>Files Mappings & API<<-->>Test Suites Mappings)", response = MappingEntity.class)
 	@PutMapping(value="/updateAPI")
-	public MappingEntity updateAPI(@RequestBody MappingRequestDTO mappingRequest, @RequestParam("fullUpdate") boolean fullUpdate) {
+	public List<MappingEntity> updateAPI(@RequestBody MappingRequestDTO mappingRequest, @RequestParam("fullUpdate") boolean fullUpdate) {
 		long startTime = System.currentTimeMillis();
-		MappingEntity mappingEntity =  mappingService.updateAPI(mappingRequest,fullUpdate);
-		logger.info(String.format("API::updateAPI Request=%s, Response=%s, TimeTaken=%s Milliseconds", mappingRequest, mappingEntity, System.currentTimeMillis()-startTime));
-		return mappingEntity;
+		List<MappingEntity> mappingEntities =  mappingService.updateAPI(mappingRequest,fullUpdate);
+		logger.info(String.format("API::updateAPI Request=%s, Response=%s, TimeTaken=%s Milliseconds", mappingRequest, mappingEntities, System.currentTimeMillis()-startTime));
+		auditRepository.save(new AuditEntity("updateAPI", mappingRequest.toString(), mappingEntities.toString()));
+		return mappingEntities;
 	}
 	
 	@ApiOperation(value = "Delete API details from DB by passing ApiId", response = Void.class)
@@ -68,6 +75,7 @@ public class MappingController {
 		long startTime = System.currentTimeMillis();
 		mappingService.deleteAPI(requestor,apiId);
 		logger.info(String.format("API::deleteAPI apiId=%s, TimeTaken=%s Milliseconds", apiId, System.currentTimeMillis()-startTime));
+		auditRepository.save(new AuditEntity("deleteAPI", "ApidId=" + apiId + "::Requestor=" + requestor, null));
 	}
 	
 	@ApiOperation(value = "Get API details from DB by passing Api Id", response = MappingEntity.class)

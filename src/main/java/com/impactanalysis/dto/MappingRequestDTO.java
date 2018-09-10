@@ -1,6 +1,7 @@
 package com.impactanalysis.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,7 +22,7 @@ public class MappingRequestDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private Requestor requestor;
-	private MappingEntity mappingEntity;
+	private List<MappingEntity> mappingEntity;
 	
 	public MappingRequestDTO() {
 		super();
@@ -35,11 +36,11 @@ public class MappingRequestDTO implements Serializable{
 		this.requestor = requestor;
 	}
 
-	public MappingEntity getMappingEntity() {
+	public List<MappingEntity> getMappingEntity() {
 		return mappingEntity;
 	}
 
-	public void setMappingEntity(MappingEntity mappingEntity) {
+	public void setMappingEntity(List<MappingEntity> mappingEntity) {
 		this.mappingEntity = mappingEntity;
 	}
 

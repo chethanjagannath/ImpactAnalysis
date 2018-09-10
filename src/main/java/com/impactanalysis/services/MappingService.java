@@ -12,6 +12,7 @@ import com.impactanalysis.dto.MappingRequestDTO;
 import com.impactanalysis.entities.MappingEntity;
 import com.impactanalysis.enums.Operation;
 import com.impactanalysis.exceptions.EntityNotFoundException;
+import com.impactanalysis.exceptions.ValidationException;
 import com.impactanalysis.pojo.Requestor;
 import com.impactanalysis.processors.MappingProcessor;
 import com.impactanalysis.repositories.MappingRespository;
@@ -29,36 +30,36 @@ public class MappingService {
 	@Autowired
 	private CommonUtility commonUtility;
 
-	public List<MappingEntity> createAPI(List<MappingRequestDTO> mappingRequest) {
-		List<MappingEntity> mappingEntityList = new ArrayList<>();
-		for(MappingRequestDTO mappingRequestDTO:mappingRequest) {
-			mappingProcessor.validateRequest(mappingRequestDTO, Operation.CREATE);
-			mappingEntityList.add(mappingRequestDTO.getMappingEntity());
-		}
-		List<MappingEntity> mpList = mappingRespository.saveAll(mappingEntityList);
-		return mpList;
+	public List<MappingEntity> createAPI(MappingRequestDTO mappingRequest) {
+		mappingProcessor.validateRequest(mappingRequest, Operation.CREATE);
+		return mappingRespository.saveAll(mappingRequest.getMappingEntity());
 	}
 
-	public MappingEntity updateAPI(MappingRequestDTO mappingRequest, boolean fullUpdate) {
+	public List<MappingEntity> updateAPI(MappingRequestDTO mappingRequest, boolean fullUpdate) {
 		mappingProcessor.validateRequest(mappingRequest, Operation.UPDATE);
-		if(!fullUpdate) {
-			// To add additional details from input (Files & TestSuites)
-			if(!ObjectUtils.isEmpty(mappingRequest) && !ObjectUtils.isEmpty(mappingRequest.getMappingEntity()) && !ObjectUtils.isEmpty(mappingRequest.getMappingEntity().getApiId())) {
-				MappingEntity mappingEntityDB = getAPIById(mappingRequest.getMappingEntity().getApiId());
-				// To add additional file names
-				if(!ObjectUtils.isEmpty(mappingRequest.getMappingEntity().getFileNames()))
-					mappingEntityDB.getFileNames().addAll(mappingRequest.getMappingEntity().getFileNames());
-				// To add additional test suites names
-				if(!ObjectUtils.isEmpty(mappingRequest.getMappingEntity().getTestSuiteNames()))
-					mappingEntityDB.getTestSuiteNames().addAll(mappingRequest.getMappingEntity().getTestSuiteNames());
-				return mappingRespository.save(mappingEntityDB);
+		if (!ObjectUtils.isEmpty(mappingRequest.getMappingEntity())) {
+			if(!fullUpdate) {
+				List<MappingEntity> mappingEntities = new ArrayList<>();
+				for (MappingEntity mappingEntity:mappingRequest.getMappingEntity()) {
+					// To add additional details from input (Files & TestSuites)
+					if(!ObjectUtils.isEmpty(mappingEntity)&& !ObjectUtils.isEmpty(mappingEntity.getApiId())) {
+						MappingEntity mappingEntityDB = getAPIById(mappingEntity.getApiId());
+						// To add additional file names
+						if(!ObjectUtils.isEmpty(mappingEntity.getFileNames()))
+							mappingEntityDB.getFileNames().addAll(mappingEntity.getFileNames());
+						// To add additional test suites names
+						if(!ObjectUtils.isEmpty(mappingEntity.getTestSuiteNames()))
+							mappingEntityDB.getTestSuiteNames().addAll(mappingEntity.getTestSuiteNames());
+						mappingEntities.add(mappingRespository.save(mappingEntityDB));
+					}
+				}
+				return mappingEntities;
 			} else {
-				return null;
+				// To update whatever received as input
+				return mappingRespository.saveAll(mappingRequest.getMappingEntity());
 			}
-		} else {
-			// To update whatever received as input
-			return mappingRespository.save(mappingRequest.getMappingEntity());
 		}
+		throw new ValidationException("No MappingEntity present in the request to update");
 	}
 
 	public void deleteAPI(Requestor requestor,Integer apiId) {
