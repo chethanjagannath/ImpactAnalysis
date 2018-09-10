@@ -13,10 +13,10 @@ import com.impactanalysis.utilities.CommonUtility;
 
 @Service
 public class DeploymentService {
-	
+
 	@Autowired
 	private DeploymentRepository deploymentRepository;
-	
+
 	@Autowired
 	private CommonUtility commonUtility;
 
@@ -26,11 +26,12 @@ public class DeploymentService {
 	}
 
 	public List<DeploymentEntity> getAllDeploymentsInfo() {
-		return deploymentRepository.findAllByOrderByDeploymentDateDesc();
+		return deploymentRepository.findAllByOrderByCreatedDateDesc();
 	}
-	
-	public DeploymentEntity getLatestDeploymentInfo() {
-		return deploymentRepository.findTop1ByOrderByDeploymentDateDesc();
+
+	public DeploymentEntity getLatestDeploymentInfo(DeploymentEntity deploymentDetails) {
+		return deploymentRepository.getLatestDeploymentInfo(deploymentDetails.getRepositoryName(),
+				deploymentDetails.getRepositoryOwnerId(), deploymentDetails.getBranchName());
 	}
 
 	public void deleteDeploymentInfoById(Requestor requestor, Long deploymentId) {

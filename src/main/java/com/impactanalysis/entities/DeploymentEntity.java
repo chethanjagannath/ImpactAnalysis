@@ -43,14 +43,14 @@ public class DeploymentEntity implements Serializable {
 	@Column(name = "repositoryOwnerId")
 	private String repositoryOwnerId;
 	
-	@Column(name = "deploymentDate")
-	private LocalDateTime deploymentDate = LocalDateTime.now();
+	@Column(name = "createdDate")
+	private LocalDateTime createdDate = LocalDateTime.now();
 	
-	@Column(name = "previousCommitId")
-	private String previousCommitId;
+	@Column(name = "branchName")
+	private String branchName;
 	
-	@Column(name = "lastestCommitId")
-	private String latestCommitId;
+	@Column(name = "commitId")
+	private String commitId;
 
 	public DeploymentEntity() {
 		super();
@@ -80,28 +80,28 @@ public class DeploymentEntity implements Serializable {
 		this.repositoryOwnerId = repositoryOwnerId;
 	}
 
-	public String getDeploymentDate() {
-		return deploymentDate.toString();
+	public String getCreatedDate() {
+		return createdDate.toString();
 	}
 
-	public void setDeploymentDate(LocalDateTime deploymentDate) {
-		this.deploymentDate = deploymentDate;
+	public void setCreatedDate(LocalDateTime createdDate) {
+		this.createdDate = createdDate;
 	}
 
-	public String getPreviousCommitId() {
-		return previousCommitId;
+	public String getBranchName() {
+		return branchName;
 	}
 
-	public void setPreviousCommitId(String previousCommitId) {
-		this.previousCommitId = previousCommitId;
+	public void setBranchName(String branchName) {
+		this.branchName = branchName;
 	}
 
-	public String getLatestCommitId() {
-		return latestCommitId;
+	public String getCommitId() {
+		return commitId;
 	}
 
-	public void setLatestCommitId(String latestCommitId) {
-		this.latestCommitId = latestCommitId;
+	public void setCommitId(String commitId) {
+		this.commitId = commitId;
 	}
 
 	@Override

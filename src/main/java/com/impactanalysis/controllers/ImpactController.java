@@ -53,10 +53,10 @@ public class ImpactController {
 	@ApiOperation(value = "Display TestSuites names for the modified files between 2 Commit Ids", response = ImpactDTO.class)
 	@GetMapping(value = "/fetchImpactedTestSuites", consumes = "application/json")
 	public Set<String> fetchImpactedTestSuites(@RequestParam("repositoryName") String repositoryName, 
-			@RequestParam("repositoryOwner") String repositoryOwner, @RequestParam("branchName") String branchName) {
+			@RequestParam("repositoryOwnerId") String repositoryOwnerId, @RequestParam("branchName") String branchName) {
 		long startTime = System.currentTimeMillis();
-		Set<String> impactedTestSuites = impactService.fetchImpactedTestSuites(repositoryName, repositoryOwner, branchName);
-		logger.info(String.format("API::fetchImpactedTestSuites repositoryName=%s, repositoryOwner=%s, branchName=%s, Response=%s, TimeTaken=%s Milliseconds", repositoryName, repositoryOwner, branchName, impactedTestSuites, System.currentTimeMillis()-startTime));
+		Set<String> impactedTestSuites = impactService.fetchImpactedTestSuites(repositoryName, repositoryOwnerId, branchName);
+		logger.info(String.format("API::fetchImpactedTestSuites repositoryName=%s, repositoryOwner=%s, branchName=%s, Response=%s, TimeTaken=%s Milliseconds", repositoryName, repositoryOwnerId, branchName, impactedTestSuites, System.currentTimeMillis()-startTime));
 		return impactedTestSuites;
 	}
 }

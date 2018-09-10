@@ -75,6 +75,23 @@ public class GitRequestDTO implements Serializable{
 		this.commitDate = commitDate;
 	}
 
+	public GitRequestDTO(String repositoryName, String repositoryOwnerId, String branchName) {
+		super();
+		this.repositoryName = repositoryName;
+		this.repositoryOwnerId = repositoryOwnerId;
+		this.branchName = branchName;
+	}
+
+	public GitRequestDTO(String repositoryName, String repositoryOwnerId, String branchName, String startCommitId,
+			String endCommitId) {
+		super();
+		this.repositoryName = repositoryName;
+		this.repositoryOwnerId = repositoryOwnerId;
+		this.branchName = branchName;
+		this.startCommitId = startCommitId;
+		this.endCommitId = endCommitId;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

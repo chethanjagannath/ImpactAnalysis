@@ -6,8 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -16,10 +15,12 @@ import com.impactanalysis.clients.GitClient;
 import com.impactanalysis.dto.GitRequestDTO;
 import com.impactanalysis.dto.GitResponseDTO;
 import com.impactanalysis.dto.ImpactDTO;
+import com.impactanalysis.entities.DeploymentEntity;
 import com.impactanalysis.entities.MappingEntity;
+import com.impactanalysis.exceptions.EntityNotFoundException;
 import com.impactanalysis.pojo.File;
+import com.impactanalysis.repositories.DeploymentRepository;
 import com.impactanalysis.repositories.MappingRespository;
-import com.impactanalysis.utilities.CommonUtility;
 
 @Service
 public class ImpactService {
@@ -31,9 +32,7 @@ public class ImpactService {
 	private GitClient gitClient;
 	
 	@Autowired
-	private DeploymentService deploymentService;
-	
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	private DeploymentRepository deploymentRepository;
 
 	public ImpactDTO fetchImpactedTestSuites(GitRequestDTO gitRequestDTO, boolean fullInfo) {
 		GitResponseDTO gitResponseDTO = gitClient.getCommitDetailsBetweenCommitIds(gitRequestDTO);
@@ -44,11 +43,7 @@ public class ImpactService {
 				impactedFilesList.add(file.getFilename());
 			}
 		}
-		
-		logger.info("ImpactedFilesList:" + impactedFilesList);
 		List<MappingEntity> mappingEntities = mappingRespository.findByFileNamesIn(impactedFilesList);
-		logger.info("MappingEntities:" + mappingEntities);
-		
 		Set<String> testSuiteList = new HashSet<>();
 		Map<String, Set<String>> apiTestSuitesMappingList = new HashMap<>();
 		for(MappingEntity mappingEntity:mappingEntities) {
@@ -65,8 +60,20 @@ public class ImpactService {
 	}
 
 	public Set<String> fetchImpactedTestSuites(String repositoryName,
-			String repositoryOwner, String branchName) {
-		// TODO Auto-generated method stub
-		return null;
+			String repositoryOwnerId, String branchName) {
+		
+		// Fetch last commit id from database
+		DeploymentEntity deploymentEntity = deploymentRepository.findFirstByRepositoryNameAndRepositoryOwnerIdAndBranchNameOrderByDeploymentIdDesc(repositoryName, repositoryOwnerId, branchName);
+		if(ObjectUtils.isEmpty(deploymentEntity))
+			throw new EntityNotFoundException(String.format("Last Deployment Details for repositoryName=%s, repositoryOwnerId=%s, branchName=%s is not present in DB", repositoryName, repositoryOwnerId, branchName));
+		String startCommitId = deploymentEntity.getCommitId();
+		
+		// Fetch recent commit details from GitHub Repository Branch
+		String endCommitId = gitClient.getLatestCommitIdOfBranch(new GitRequestDTO(repositoryName, repositoryOwnerId, branchName));
+		if (StringUtils.isBlank(endCommitId))
+		      throw new EntityNotFoundException(String.format("Last Commit Details for repositoryName=%s, repositoryOwnerId=%s, branchName=%s is not fetched from GitHub Repository Branch", repositoryName, repositoryOwnerId, branchName));
+		
+		ImpactDTO impactDTO = fetchImpactedTestSuites(new GitRequestDTO(repositoryName, repositoryOwnerId, branchName, startCommitId, endCommitId), false);
+		return impactDTO.getTestSuiteList();
 	}
 }
