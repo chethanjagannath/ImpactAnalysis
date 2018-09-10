@@ -35,7 +35,7 @@ public class ImpactService {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	public ImpactDTO fetchImpactedTestSuites(GitRequestDTO gitRequestDTO) {
+	public ImpactDTO fetchImpactedTestSuites(GitRequestDTO gitRequestDTO, boolean fullInfo) {
 		GitResponseDTO gitResponseDTO = gitClient.getCommitDetailsBetweenCommitIds(gitRequestDTO);
 		Set<String> impactedFilesList = new HashSet<>();
 		if(!ObjectUtils.isEmpty(gitResponseDTO)) {
@@ -52,12 +52,14 @@ public class ImpactService {
 		Set<String> testSuiteList = new HashSet<>();
 		Map<String, Set<String>> apiTestSuitesMappingList = new HashMap<>();
 		for(MappingEntity mappingEntity:mappingEntities) {
-			apiTestSuitesMappingList.put(mappingEntity.getApiId() + "-" + mappingEntity.getApiName(), mappingEntity.getTestSuiteNames());
 			testSuiteList.addAll(mappingEntity.getTestSuiteNames());
+			apiTestSuitesMappingList.put(mappingEntity.getApiId() + " " + mappingEntity.getApiName(), mappingEntity.getTestSuiteNames());
 		}
 		ImpactDTO impactDTO = new ImpactDTO();
 		impactDTO.setTestSuiteList(testSuiteList);
-		impactDTO.setApiTestSuitesMappingList(apiTestSuitesMappingList);
+		if(fullInfo) {
+			impactDTO.setApiTestSuitesMappingList(apiTestSuitesMappingList);
+		}
 		
 		return impactDTO;
 	}
