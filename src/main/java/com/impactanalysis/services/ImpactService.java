@@ -63,4 +63,10 @@ public class ImpactService {
 		
 		return impactDTO;
 	}
+
+	public Set<String> fetchImpactedTestSuites(String repositoryName,
+			String repositoryOwner, String branchName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
