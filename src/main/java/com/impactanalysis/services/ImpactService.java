@@ -31,9 +31,6 @@ public class ImpactService {
 	private GitClient gitClient;
 	
 	@Autowired
-	private CommonUtility commonUtility;
-	
-	@Autowired
 	private DeploymentService deploymentService;
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
