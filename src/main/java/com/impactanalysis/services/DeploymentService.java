@@ -21,7 +21,7 @@ public class DeploymentService {
 	private CommonUtility commonUtility;
 
 	public DeploymentEntity createDeploymentInfo(DeploymentRequestDTO deploymentRequestDTO) {
-		commonUtility.validateRequestor(deploymentRequestDTO.getRequestor());
+		//commonUtility.validateRequestor(deploymentRequestDTO.getRequestor());
 		return deploymentRepository.save(deploymentRequestDTO.getDeploymentEntity());
 	}
 
@@ -30,7 +30,7 @@ public class DeploymentService {
 	}
 
 	public DeploymentEntity getLatestDeploymentInfo(DeploymentEntity deploymentDetails) {
-		return deploymentRepository.getLatestDeploymentInfo(deploymentDetails.getRepositoryName(),
+		return deploymentRepository.findFirstByRepositoryNameAndRepositoryOwnerIdAndBranchNameOrderByDeploymentIdDesc(deploymentDetails.getRepositoryName(),
 				deploymentDetails.getRepositoryOwnerId(), deploymentDetails.getBranchName());
 	}
 
