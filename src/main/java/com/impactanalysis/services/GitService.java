@@ -30,4 +30,8 @@ public class GitService{
 		GitResponseDTO gitResponseDTO = gitClient.getCommitDetailsBetweenCommitIds(gitUserDTO);
 		return gitProcessor.processResponse(gitResponseDTO);
 	}
+
+	public String getLatestCommitIdOfBranch(GitRequestDTO gitRequestDTO) {
+		return gitClient.getLatestCommitIdOfBranch(gitRequestDTO);
+	}
 }

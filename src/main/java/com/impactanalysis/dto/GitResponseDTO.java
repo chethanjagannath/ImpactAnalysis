@@ -30,6 +30,7 @@ public class GitResponseDTO implements Serializable{
 	private ArrayList<File> files;
 	private Integer totalItems;
 	private ArrayList<Item> items;
+	private Item object;
     
 	public GitResponseDTO() {	
 	}
@@ -90,6 +91,14 @@ public class GitResponseDTO implements Serializable{
 
 	public void setItems(ArrayList<Item> items) {
 		this.items = items;
+	}
+
+	public Item getObject() {
+		return object;
+	}
+
+	public void setObject(Item object) {
+		this.object = object;
 	}
 
 	@Override

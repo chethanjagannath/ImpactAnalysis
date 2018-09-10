@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.impactanalysis.dto.GitRequestDTO;
 import com.impactanalysis.dto.GitResponseDTO;
 import com.impactanalysis.services.GitService;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -44,6 +46,15 @@ public class GitController {
 		return gitResponseDTO;
 	}
 	
+	@ApiOperation(value = "Displays Latest Commit Id of a Branch", response = GitResponseDTO.class)
+	@PostMapping(value = "/getLatestCommitIdOfBranch" , consumes = "application/json")
+	public String getLatestCommitIdOfBranch(@RequestBody GitRequestDTO gitRequestDTO) {
+		long startTime = System.currentTimeMillis();
+		String latestCommitId = gitService.getLatestCommitIdOfBranch(gitRequestDTO);
+		logger.info(String.format("API::getLatestCommitIdOfBranch Request=%s, Response=%s, TimeTaken=%s Milliseconds", gitRequestDTO, latestCommitId, System.currentTimeMillis()-startTime));
+		return latestCommitId;
+	}
+	
 	@ApiOperation(value = "Displays modified set of files of a repository for a commit id", response = GitResponseDTO.class)
 	@PostMapping(value = "/getCommitDetailsByCommitId", consumes = "application/json")
 	public GitResponseDTO getCommitDetailsByCommitId(@RequestBody GitRequestDTO gitRequestDTO) {
@@ -61,5 +72,4 @@ public class GitController {
 		logger.info(String.format("API::getCommitDetailsBetweenCommitIds Request=%s, Response=%s, TimeTaken=%s Milliseconds", gitRequestDTO, gitResponseDTO, System.currentTimeMillis()-startTime));
 		return gitResponseDTO;
 	}
-	
 }

@@ -11,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -120,5 +121,33 @@ public class GitClient implements Serializable {
 		logger.info("Response Object:" + responseEntity);
 
 		return responseEntity;
+	}
+
+	public String getLatestCommitIdOfBranch(GitRequestDTO gitRequestDTO) {
+
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setAccept(Collections.singletonList(MediaTypeSupport.GITHUB_MEDIATYPE_MERCY));
+
+		HttpEntity<GitRequestDTO> request = new HttpEntity<GitRequestDTO>(null, httpHeaders);
+
+		restTemplate.getMessageConverters().add(mappingJackson2HttpMessageConverter);
+
+		GitResponseDTO responseEntity = null;
+
+		String URI = gitRespositoryURL + "/repos/" + gitRequestDTO.getRepositoryOwnerId() + "/"
+					+ gitRequestDTO.getRepositoryName() + "/git/refs/heads/" + gitRequestDTO.getBranchName();
+		
+		logger.info("API::getlatestCommitIdOfBranch -> Requesting URI:" + URI);
+		
+		try {
+			responseEntity = restTemplate.getForObject(URI, GitResponseDTO.class, request);
+		} catch (HttpClientErrorException e) {
+				logger.error("StatusCode:" + e.getStatusCode().value() + "::ResponseBody:" + e.getResponseBodyAsString());
+		} catch (HttpServerErrorException e) {
+				logger.error("StatusCode:" + e.getStatusCode().value() + "::ResponseBody:" + e.getResponseBodyAsString());
+		}
+		String latestCommitId = !ObjectUtils.isEmpty(responseEntity) ? (!ObjectUtils.isEmpty(responseEntity.getObject()) ? responseEntity.getObject().getSha() : null) : null;
+		logger.info("Response Object:" + responseEntity + "::LatestCommitId=" + latestCommitId);
+		return latestCommitId;
 	}
 }

@@ -1,6 +1,8 @@
 package com.impactanalysis.controllers;
 
 
+import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +48,15 @@ public class ImpactController {
 		ImpactDTO impactDTO = impactService.fetchImpactedTestSuites(gitRequestDTO, fullInfo);
 		logger.info(String.format("API::fetchImpactedTestSuites Request=%s, Response=%s, TimeTaken=%s Milliseconds", gitRequestDTO, impactDTO, System.currentTimeMillis()-startTime));
 		return impactDTO;
+	}
+	
+	@ApiOperation(value = "Display TestSuites names for the modified files between 2 Commit Ids", response = ImpactDTO.class)
+	@GetMapping(value = "/fetchImpactedTestSuites", consumes = "application/json")
+	public Set<String> fetchImpactedTestSuites(@RequestParam("repositoryName") String repositoryName, 
+			@RequestParam("repositoryOwnerId") String repositoryOwnerId, @RequestParam("branchName") String branchName) {
+		long startTime = System.currentTimeMillis();
+		Set<String> impactedTestSuites = impactService.fetchImpactedTestSuites(repositoryName, repositoryOwnerId, branchName);
+		logger.info(String.format("API::fetchImpactedTestSuites repositoryName=%s, repositoryOwner=%s, branchName=%s, Response=%s, TimeTaken=%s Milliseconds", repositoryName, repositoryOwnerId, branchName, impactedTestSuites, System.currentTimeMillis()-startTime));
+		return impactedTestSuites;
 	}
 }

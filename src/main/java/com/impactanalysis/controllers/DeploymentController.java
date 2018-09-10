@@ -69,9 +69,9 @@ public class DeploymentController {
 	
 	@ApiOperation(value = "Get all Deployments", response = DeploymentEntity.class)
 	@GetMapping(value = "/getLatestDeploymentInfo", consumes = "application/json")
-	public DeploymentEntity getLatestDeploymentInfo() {
+	public DeploymentEntity getLatestDeploymentInfo(@RequestBody DeploymentEntity deploymentDetails) {
 		long startTime = System.currentTimeMillis();
-		DeploymentEntity deploymentEntity = deploymentService.getLatestDeploymentInfo();
+		DeploymentEntity deploymentEntity = deploymentService.getLatestDeploymentInfo(deploymentDetails);
 		logger.info(String.format("API::fetchImpactedTestSuites Response=%s, TimeTaken=%s Milliseconds", deploymentEntity, System.currentTimeMillis()-startTime));
 		return deploymentEntity;
 	}

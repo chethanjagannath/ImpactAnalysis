@@ -19,6 +19,7 @@ public class GitRequestDTO implements Serializable{
 	
 	private String repositoryOwnerId;
 	private String repositoryName;
+	private String branchName;
 	private String startCommitId;
 	private String endCommitId;
 	private LocalDate commitDate;
@@ -40,6 +41,14 @@ public class GitRequestDTO implements Serializable{
 
 	public void setRepositoryName(String repositoryName) {
 		this.repositoryName = repositoryName;
+	}
+
+	public String getBranchName() {
+		return branchName;
+	}
+
+	public void setBranchName(String branchName) {
+		this.branchName = branchName;
 	}
 
 	public String getStartCommitId() {
@@ -64,6 +73,23 @@ public class GitRequestDTO implements Serializable{
 
 	public void setCommitDate(LocalDate commitDate) {
 		this.commitDate = commitDate;
+	}
+
+	public GitRequestDTO(String repositoryName, String repositoryOwnerId, String branchName) {
+		super();
+		this.repositoryName = repositoryName;
+		this.repositoryOwnerId = repositoryOwnerId;
+		this.branchName = branchName;
+	}
+
+	public GitRequestDTO(String repositoryName, String repositoryOwnerId, String branchName, String startCommitId,
+			String endCommitId) {
+		super();
+		this.repositoryName = repositoryName;
+		this.repositoryOwnerId = repositoryOwnerId;
+		this.branchName = branchName;
+		this.startCommitId = startCommitId;
+		this.endCommitId = endCommitId;
 	}
 
 	@Override
