@@ -33,6 +33,9 @@ public class ImpactService {
 	@Autowired
 	private CommonUtility commonUtility;
 	
+	@Autowired
+	private DeploymentService deploymentService;
+	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	public ImpactDTO fetchImpactedTestSuites(GitRequestDTO gitRequestDTO, boolean fullInfo) {
