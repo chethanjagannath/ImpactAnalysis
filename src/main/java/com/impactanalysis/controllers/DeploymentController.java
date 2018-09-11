@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.impactanalysis.dto.DeploymentRequestDTO;
 import com.impactanalysis.entities.AuditEntity;
 import com.impactanalysis.entities.DeploymentEntity;
 import com.impactanalysis.pojo.Requestor;
@@ -50,11 +49,11 @@ public class DeploymentController {
 	
 	@ApiOperation(value = "Save Deployment Info", response = DeploymentEntity.class)
 	@PostMapping(value = "/createDeploymentInfo", consumes = "application/json")
-	public DeploymentEntity createDeploymentInfo(@RequestBody DeploymentRequestDTO deploymentRequestDTO) {
+	public DeploymentEntity createDeploymentInfo(@RequestBody DeploymentEntity deploymentRequest) {
 		long startTime = System.currentTimeMillis();
-		DeploymentEntity deploymentEntity = deploymentService.createDeploymentInfo(deploymentRequestDTO);
-		logger.info(String.format("API::fetchImpactedTestSuites Request=%s, Response=%s, TimeTaken=%s Milliseconds", deploymentRequestDTO, deploymentEntity, System.currentTimeMillis()-startTime));
-		auditRepository.save(new AuditEntity("createDeploymentInfo", deploymentRequestDTO.toString(), deploymentEntity.toString()));
+		DeploymentEntity deploymentEntity = deploymentService.createDeploymentInfo(deploymentRequest);
+		logger.info(String.format("API::fetchImpactedTestSuites Request=%s, Response=%s, TimeTaken=%s Milliseconds", deploymentRequest, deploymentEntity, System.currentTimeMillis()-startTime));
+		auditRepository.save(new AuditEntity("createDeploymentInfo", deploymentRequest.toString(), deploymentEntity.toString()));
 		return deploymentEntity;
 	}
 	
@@ -68,7 +67,7 @@ public class DeploymentController {
 	}
 	
 	@ApiOperation(value = "Get all Deployments", response = DeploymentEntity.class)
-	@GetMapping(value = "/getLatestDeploymentInfo", consumes = "application/json")
+	@PostMapping(value = "/getLatestDeploymentInfo", consumes = "application/json", produces= "application/json")
 	public DeploymentEntity getLatestDeploymentInfo(@RequestBody DeploymentEntity deploymentDetails) {
 		long startTime = System.currentTimeMillis();
 		DeploymentEntity deploymentEntity = deploymentService.getLatestDeploymentInfo(deploymentDetails);

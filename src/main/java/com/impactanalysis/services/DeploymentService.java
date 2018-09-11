@@ -4,14 +4,17 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.impactanalysis.dto.DeploymentRequestDTO;
 import com.impactanalysis.entities.DeploymentEntity;
 import com.impactanalysis.pojo.Requestor;
 import com.impactanalysis.repositories.DeploymentRepository;
 import com.impactanalysis.utilities.CommonUtility;
 
 @Service
+@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED, timeout = 100000)
 public class DeploymentService {
 
 	@Autowired
@@ -20,9 +23,8 @@ public class DeploymentService {
 	@Autowired
 	private CommonUtility commonUtility;
 
-	public DeploymentEntity createDeploymentInfo(DeploymentRequestDTO deploymentRequestDTO) {
-		//commonUtility.validateRequestor(deploymentRequestDTO.getRequestor());
-		return deploymentRepository.save(deploymentRequestDTO.getDeploymentEntity());
+	public DeploymentEntity createDeploymentInfo(DeploymentEntity deploymentRequest) {
+		return deploymentRepository.save(deploymentRequest);
 	}
 
 	public List<DeploymentEntity> getAllDeploymentsInfo() {

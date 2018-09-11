@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.impactanalysis.entities.AuditEntity;
 
 @Repository
-@Transactional(isolation=Isolation.READ_COMMITTED, propagation=Propagation.REQUIRED)
+@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED, timeout = 100000)
 public interface AuditRepository extends JpaRepository<AuditEntity,Long>{
 	
 }

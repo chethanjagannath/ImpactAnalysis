@@ -1,7 +1,6 @@
 package com.impactanalysis.exceptions;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -35,6 +34,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
     return new ResponseEntity(errorDetails, HttpStatus.NOT_FOUND);
   }
   
+  @SuppressWarnings({ "unchecked", "rawtypes" })
   @ExceptionHandler(ValidationException.class)
   public final ResponseEntity<Object> handleValidationException(ValidationException ex, WebRequest request) {
     ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(), ex.getMessage(),
@@ -42,6 +42,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
     return new ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST);
   }
 
+  @SuppressWarnings({ "unchecked", "rawtypes" })
   @Override
   protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
       HttpHeaders headers, HttpStatus status, WebRequest request) {
