@@ -5,19 +5,16 @@ import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.impactanalysis.entities.MappingEntity;
 
 @Repository
-@Transactional(isolation=Isolation.READ_COMMITTED, propagation=Propagation.REQUIRED)
 public interface MappingRespository extends JpaRepository<MappingEntity,Integer>{
 	
-	@Transactional(readOnly = true, timeout=100000)
+	@Transactional(readOnly = true)
 	List<MappingEntity> findByApiName(String apiName);
 	
-	@Transactional(readOnly = true, timeout=100000)
+	@Transactional(readOnly = true)
 	List<MappingEntity> findByFileNamesIn(Set<String> impactedFilesList);
 }

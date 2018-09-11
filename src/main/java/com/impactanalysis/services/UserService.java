@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.impactanalysis.entities.UserEntity;
 import com.impactanalysis.enums.Operation;
@@ -11,6 +14,7 @@ import com.impactanalysis.processors.UserProcessor;
 import com.impactanalysis.repositories.UserRepository;
 
 @Service
+@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED, timeout = 100000)
 public class UserService {
 	
 	@Autowired

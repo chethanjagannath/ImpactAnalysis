@@ -11,7 +11,6 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.impactanalysis.pojo.File;
 import com.impactanalysis.pojo.Item;
-import com.impactanalysis.pojo.Stat;
 import com.impactanalysis.utilities.CommonUtility;
 
 @JsonIgnoreProperties(ignoreUnknown = true)

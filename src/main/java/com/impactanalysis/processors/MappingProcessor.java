@@ -11,7 +11,6 @@ import com.impactanalysis.dto.MappingRequestDTO;
 import com.impactanalysis.entities.MappingEntity;
 import com.impactanalysis.enums.Operation;
 import com.impactanalysis.exceptions.ValidationException;
-import com.impactanalysis.pojo.Requestor;
 import com.impactanalysis.repositories.MappingRespository;
 import com.impactanalysis.utilities.CommonUtility;
 

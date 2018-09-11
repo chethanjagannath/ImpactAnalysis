@@ -9,6 +9,9 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import com.impactanalysis.clients.GitClient;
@@ -23,6 +26,7 @@ import com.impactanalysis.repositories.DeploymentRepository;
 import com.impactanalysis.repositories.MappingRespository;
 
 @Service
+@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED, timeout = 100000)
 public class ImpactService {
 	
 	@Autowired

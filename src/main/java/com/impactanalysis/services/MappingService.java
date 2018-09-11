@@ -6,6 +6,9 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import com.impactanalysis.dto.MappingRequestDTO;
@@ -19,6 +22,7 @@ import com.impactanalysis.repositories.MappingRespository;
 import com.impactanalysis.utilities.CommonUtility;
 
 @Service
+@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED, timeout = 100000)
 public class MappingService {
 	
 	@Autowired
